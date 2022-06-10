@@ -33,6 +33,7 @@ select {
   border-color: #ced4da;
   border-radius: 3px;
   height: 30px;
+  font-family: Roboto, sans-serif;
 }
 
 label {
@@ -51,6 +52,7 @@ button {
   border-radius: 3px;
   font-size: 15px;
   padding: 0 15px;
+  font-family: Roboto, sans-serif;
 }
 
 button:hover {
