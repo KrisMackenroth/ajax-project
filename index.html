@@ -13,8 +13,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Risque&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Risque&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&family=Share+Tech&display=swap"
     rel="stylesheet">
 </head>
 
@@ -22,16 +24,16 @@
   <header>
     <h1>Character Generator</h1>
     <div class="row header-row">
-      <a href="#">Create</a>
+      <a class="create" href="#">Create</a>
     </div>
   </header>
   <main>
     <div class="container">
-      <div data-view="feature-form">
+      <form data-view="feature-form" class="feature-form view">
         <div class="row">
           <div class="column-one-third">
             <label for="class">Class<br></label>
-            <select class="class" required>
+            <select name="class" class="role" required>
               <option selected disabled hidden>Select</option>
               <option>Paladin</option>
               <option>Warlock</option>
@@ -49,14 +51,14 @@
           </div>
           <div class="column-one-third">
             <label for="race">Race<br></label>
-            <select class="race" required>
+            <select name="race" class="race" required>
               <option selected disabled hidden>Select</option>
               <option>Dragonborn</option>
               <option>Dwarf</option>
               <option>Elf</option>
               <option>Gnome</option>
-              <option>Half-elf</option>
-              <option>Half-orc</option>
+              <option>Half-Elf</option>
+              <option>Half-Orc</option>
               <option>Halfling</option>
               <option>Human</option>
               <option>Tiefling</option>
@@ -64,10 +66,10 @@
           </div>
           <div class="column-one-third">
             <label for="alignment">Alignment<br></label>
-            <select class="alignment" required>
+            <select name="alignment" class="alignment" required>
               <option selected disabled hidden>Select</option>
               <option>Chaotic-neutral</option>
-              <option>chaotic-evil</option>
+              <option>Chaotic-evil</option>
               <option>Chaotic-good</option>
               <option>Lawful-neutral</option>
               <option>Lawful-evil</option>
@@ -79,7 +81,24 @@
           </div>
         </div>
         <div class="row generate">
-          <button>Generate</button>
+          <button type="submit" class="submit">Generate</button>
+        </div>
+      </form>
+    </div>
+
+
+    <div class="container-two">
+      <div data-view="character-sheet" class="view hidden">
+        <div class="row character-sheet">
+          <div class="column-one-half info">
+
+          </div>
+          <div class="column-one-half img">
+            <img src="https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg">
+          </div>
+        </div>
+        <div class="row description">
+
         </div>
       </div>
     </div>
