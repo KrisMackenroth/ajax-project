@@ -32,6 +32,13 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  line-height: 50px;
+  font-family: "Share Tech", sans-serif;
+  font-weight: 500;
+  margin-top: 0;
+}
+
 select {
   width: 100%;
   border: solid 2px;
@@ -96,13 +103,6 @@ select:hover {
 
 .img {
   text-align: right;
-}
-
-h2 {
-  line-height: 50px;
-  font-family: "Share Tech", sans-serif;
-  font-weight: 500;
-  margin-top: 0;
 }
 
 .description {
