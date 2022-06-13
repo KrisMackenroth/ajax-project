@@ -31,6 +31,7 @@ classes.responseType = 'json';
 classes.send();
 
 var featureForm = document.querySelector('.feature-form');
+var regenerate = document.querySelector('.regen');
 var alignment = document.querySelector('.alignment');
 var role = document.querySelector('.role');
 var race = document.querySelector('.race');
@@ -43,6 +44,9 @@ var create = document.querySelector('.create');
 featureForm.addEventListener('submit', function (e) {
   e.preventDefault();
   var newCharacter = {};
+  newCharacter.raceValue = race.value;
+  newCharacter.roleValue = role.value;
+  newCharacter.alignmentValue = alignment.value;
   if (race.value === 'Random') {
     var randomIndex = Math.floor(Math.random() * races.response.results.length);
     newCharacter.race = races.response.results[randomIndex].name;
@@ -99,6 +103,7 @@ featureForm.addEventListener('submit', function (e) {
   data.characters.unshift(newCharacter);
   characterEntry(newCharacter);
   viewSwap('character-sheet');
+
   featureForm.reset();
 });
 
@@ -135,6 +140,8 @@ function characterEntry(entry) {
   info.appendChild(h2Armor);
   description.appendChild(h2Size);
   description.appendChild(h2Languages);
+  names.open('GET', 'https://randomuser.me/api/');
+  names.send();
 }
 
 function viewSwap(event) {
@@ -154,4 +161,76 @@ create.addEventListener('click', function () {
   description.innerHTML = '';
   names.open('GET', 'https://randomuser.me/api/');
   names.send();
+});
+
+regenerate.addEventListener('click', function (e) {
+  info.innerHTML = '';
+  description.innerHTML = '';
+  var newCharacter = {};
+  if (data.characters[0].raceValue === 'Random') {
+    var randomIndex = Math.floor(Math.random() * races.response.results.length);
+    newCharacter.race = races.response.results[randomIndex].name;
+    newCharacter.raceValue = 'Random';
+  } else {
+    newCharacter.race = data.characters[0].raceValue;
+    newCharacter.raceValue = data.characters[0].raceValue;
+  }
+  if (data.characters[0].roleValue === 'Random') {
+    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+    newCharacter.class = classes.response.results[classesIndex].name;
+    newCharacter.roleValue = 'Random';
+  } else {
+    newCharacter.class = data.characters[0].roleValue;
+    newCharacter.roleValue = data.characters[0].roleValue;
+  }
+  if (data.characters[0].alignmentValue === 'Random') {
+    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+    newCharacter.alignmentValue = 'Random';
+  } else {
+    newCharacter.alignment = data.characters[0].alignmentValue;
+    newCharacter.alignmentValue = data.characters[0].alignmentValue;
+  }
+  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+  for (var i = 0; i < classes.response.results.length; i++) {
+    if (newCharacter.class === classes.response.results[i].name) {
+      newCharacter.hitDie = classes.response.results[i].hit_dice;
+      newCharacter.armorProf = classes.response.results[i].prof_armor;
+    }
+  }
+  for (var j = 0; j < races.response.results.length; j++) {
+    if (newCharacter.race === races.response.results[j].name) {
+      newCharacter.size = races.response.results[j].size;
+      newCharacter.languages = races.response.results[j].languages;
+    }
+  }
+  if (newCharacter.class === 'Paladin') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
+  } else if (newCharacter.class === 'Druid') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg');
+  } else if (newCharacter.class === 'Barbarian') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg');
+  } else if (newCharacter.class === 'Bard') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg');
+  } else if (newCharacter.class === 'Cleric') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg');
+  } else if (newCharacter.class === 'Fighter') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg');
+  } else if (newCharacter.class === 'Monk') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg');
+  } else if (newCharacter.class === 'Ranger') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg');
+  } else if (newCharacter.class === 'Rogue') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg');
+  } else if (newCharacter.class === 'Sorcerer') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg');
+  } else if (newCharacter.class === 'Warlock') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg');
+  } else if (newCharacter.class === 'Wizard') {
+    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
+  }
+  newCharacter.size = newCharacter.size.slice(12);
+  newCharacter.languages = newCharacter.languages.slice(17);
+  data.characters[0] = newCharacter;
+  characterEntry(newCharacter);
 });
