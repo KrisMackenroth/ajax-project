@@ -1,3 +1,11 @@
+var alignmentApi = new XMLHttpRequest();
+
+alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
+
+alignmentApi.responseType = 'json';
+
+alignmentApi.send();
+
 var races = new XMLHttpRequest();
 
 races.open('GET', 'https://api.open5e.com/races');
@@ -5,6 +13,7 @@ races.open('GET', 'https://api.open5e.com/races');
 races.responseType = 'json';
 
 races.send();
+
 var names = new XMLHttpRequest();
 
 names.open('GET', 'https://randomuser.me/api/');
@@ -34,9 +43,18 @@ var create = document.querySelector('.create');
 featureForm.addEventListener('submit', function (e) {
   e.preventDefault();
   var newCharacter = {};
-  newCharacter.race = race.value;
-  newCharacter.alignment = alignment.value;
-  newCharacter.class = role.value;
+  if (race.value === 'Random') {
+    var randomIndex = Math.floor(Math.random() * races.response.results.length);
+    newCharacter.race = races.response.results[randomIndex].name;
+  } else { newCharacter.race = race.value; }
+  if (role.value === 'Random') {
+    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+    newCharacter.class = classes.response.results[classesIndex].name;
+  } else { newCharacter.class = role.value; }
+  if (alignment.value === 'Random') {
+    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+  } else { newCharacter.alignment = alignment.value; }
   newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
   data.nextEntryId++;
   for (var i = 0; i < classes.response.results.length; i++) {
@@ -134,4 +152,6 @@ create.addEventListener('click', function () {
   viewSwap('feature-form');
   info.innerHTML = '';
   description.innerHTML = '';
+  names.open('GET', 'https://randomuser.me/api/');
+  names.send();
 });
