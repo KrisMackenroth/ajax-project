@@ -17,6 +17,12 @@
   margin: auto;
 }
 
+.new-row {
+  text-align: left;
+  width: 39%;
+  margin: auto;
+}
+
 .column-full,
 .column-half {
   width: 100%;

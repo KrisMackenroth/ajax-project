@@ -87,7 +87,6 @@ select:hover {
 
 .header-row {
   width: 35%;
-  text-align: left;
 }
 
 .character-sheet {
@@ -123,6 +122,7 @@ select:hover {
   img {
     width: 100%;
     height: 60%;
+    object-fit: cover;
   }
 
   .regenerate {
@@ -131,6 +131,19 @@ select:hover {
     color: white;
     text-align: right;
     margin-right: 0;
+  }
+
+  .block {
+    background-color: #c1121f;
+    width: 80%;
+    height: 20%;
+    margin: 10px auto auto;
+    display: flex;
+    border-radius: 5px;
+    font-family: Roboto, sans-serif;
+    color: white;
+    padding: 10px;
+    font-size: 60%;
   }
 }
 
@@ -153,4 +166,47 @@ select:hover {
   font-weight: 400;
   padding-top: 3px;
   padding-bottom: 3px;
+}
+
+.save {
+  border: none;
+  background-color: #c1121f;
+  color: white;
+  height: 30px;
+  border-radius: 3px;
+  font-size: 15px;
+  padding: 0 15px;
+  font-family: Roboto, sans-serif;
+  font-weight: 400;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.block {
+  background-color: #c1121f;
+  width: 80%;
+  height: 20%;
+  margin: 10px auto auto;
+  display: flex;
+  border-radius: 5px;
+  font-family: Roboto, sans-serif;
+  color: white;
+  padding: 10px;
+}
+
+.sm-img {
+  width: 20%;
+  margin-right: 0;
+}
+
+p {
+  margin: auto;
+}
+
+.view-char {
+  color: black;
+}
+
+.flex {
+  display: flex;
 }

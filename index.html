@@ -24,7 +24,14 @@
   <header>
     <h1>Character Generator</h1>
     <div class="row header-row">
-      <a class="create" href="#">Create</a>
+      <div class="column-full flex">
+        <div class="column-half">
+          <a class="create hidden" href="#">Create</a>
+        </div>
+        <div class="column-half">
+          <a class="saved" href="#">Saved</a>
+        </div>
+      </div>
     </div>
   </header>
   <main>
@@ -88,25 +95,27 @@
         </div>
       </form>
     </div>
-
-
     <div class="container-two">
       <div data-view="character-sheet" class="view hidden character-info">
         <div class="row regenerate">
           <a class="regen" href="#">Regenerate</a>
+          <a class="save" href="#">Save</a>
         </div>
         <div class="row character-sheet">
           <div class="column-one-half info">
-
           </div>
           <div class="column-one-half img">
             <img src="https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg">
           </div>
         </div>
         <div class="row description">
-
         </div>
-
+      </div>
+    </div>
+    <div class="container">
+      <div data-view="character-entries" class="view entries hidden">
+        <div class="row test">
+        </div>
       </div>
     </div>
   </main>
