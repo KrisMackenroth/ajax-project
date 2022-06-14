@@ -2,6 +2,10 @@
   display: none !important;
 }
 
+.hidden-two {
+  display: none;
+}
+
 .container {
   max-width: 575px;
   margin: 0 auto;
@@ -21,6 +25,12 @@
   text-align: left;
   width: 39%;
   margin: auto;
+}
+
+.modal-row {
+  margin: auto;
+  width: 100%;
+  margin-top: 15%;
 }
 
 .column-full,

@@ -41,8 +41,14 @@ var image = document.querySelector('img');
 var view = document.querySelectorAll('.view');
 var create = document.querySelector('.create');
 var save = document.querySelector('.save');
-
+var yesButton = document.querySelector('.yes-button');
+var hiddenTwo = document.querySelector('.hidden-two');
+var coldButton = document.querySelector('.cold-button');
+var hiddenBackground = document.querySelector('.hidden-background');
+var regen = document.querySelector('.regen');
+var noChar = document.querySelector('.no-chars');
 var currentCharacter;
+var savedEntries = document.querySelector('.saved');
 
 featureForm.addEventListener('submit', function (e) {
   e.preventDefault();
@@ -163,6 +169,7 @@ function viewSwap(event) {
     if (view[i].getAttribute('data-view') === event) {
       view[i].classList.remove('hidden');
       view[i].classList.add('active');
+      data.view = view[i].getAttribute('data-view');
     } else view[i].classList.add('hidden');
     view[i].classList.remove('active');
   }
@@ -171,9 +178,12 @@ function viewSwap(event) {
 
 create.addEventListener('click', function () {
   viewSwap('feature-form');
-  info.innerHTML = '';
-  description.innerHTML = '';
-  entries.innerHTML = '';
+  if (data.characters.length > 0) {
+    info.innerHTML = '';
+    description.innerHTML = '';
+    entries.innerHTML = '';
+    noChar.classList.add('hidden');
+  }
   regen.classList.remove('hidden');
   save.classList.remove('hidden');
   create.classList.add('hidden');
@@ -295,48 +305,102 @@ function characterView(character) {
   pClass.appendChild(classText);
   var aRow = document.createElement('div');
   aRow.classList.add('new-row');
+  var viewFullColumn = document.createElement('div');
+  viewFullColumn.classList.add('column-full');
+  viewFullColumn.classList.add('flex');
   var aView = document.createElement('a');
+  var aDelete = document.createElement('a');
+  aDelete.classList.add('view-char');
+  aDelete.classList.add('column-half');
+  aDelete.setAttribute('href', '#');
+  aDelete.setAttribute('id', character.id);
+  aDelete.setAttribute('type', 'delete');
+  aDelete.textContent = 'Delete';
   aView.classList.add('view-char');
+  aView.classList.add('column-half');
   aView.setAttribute('href', '#');
+  aView.setAttribute('type', 'view');
   aView.textContent = 'View';
   aView.setAttribute('id', character.id);
+  viewFullColumn.appendChild(aView);
+  viewFullColumn.appendChild(aDelete);
   divRow.appendChild(divBlock);
   divBlock.appendChild(classImage);
   divBlock.appendChild(pName);
   divBlock.appendChild(pRace);
   divBlock.appendChild(pClass);
-  aRow.appendChild(aView);
+  aRow.appendChild(viewFullColumn);
   entries.appendChild(divRow);
   entries.appendChild(aRow);
 }
-
-var savedEntries = document.querySelector('.saved');
 
 savedEntries.addEventListener('click', function (character) {
   info.innerHTML = '';
   description.innerHTML = '';
   create.classList.remove('hidden');
   savedEntries.classList.add('hidden');
+  if (data.characters.length === 0) {
+    noChar.classList.remove('hidden');
+  } else if (data.characters.length > 0) {
+    noChar.classList.add('hidden');
+  }
   viewSwap('character-entries');
   for (var i = 0; i < data.characters.length; i++) {
     characterView(data.characters[i]);
   }
 });
 
-var regen = document.querySelector('.regen');
-
 entries.addEventListener('click', function (temp) {
   var oldNum = temp.target.getAttribute('id');
   var newNum = parseInt(oldNum);
   for (var i = 0; i < data.characters.length; i++) {
     if (newNum === data.characters[i].id) {
-      entries.innerHTML = '';
-      regen.classList.add('hidden');
-      save.classList.add('hidden');
-      savedEntries.classList.remove('hidden');
-      characterEntry(data.characters[i]);
-      image.setAttribute('src', data.characters[i].image);
-      viewSwap('character-sheet');
+      if (temp.target.getAttribute('type') === 'view') {
+        entries.innerHTML = '';
+        regen.classList.add('hidden');
+        save.classList.add('hidden');
+        savedEntries.classList.remove('hidden');
+        characterEntry(data.characters[i]);
+        image.setAttribute('src', data.characters[i].image);
+        viewSwap('character-sheet');
+      } else if (temp.target.getAttribute('type') === 'delete') {
+        hiddenTwo.className = 'visible';
+        hiddenBackground.className = 'background';
+        yesButton.setAttribute('id', newNum);
+      }
     }
   }
 });
+
+coldButton.addEventListener('click', function (event) {
+  hiddenTwo.className = 'hidden';
+  hiddenBackground.className = 'hidden-background';
+});
+
+yesButton.addEventListener('click', function (event) {
+  var temp = yesButton.getAttribute('id');
+  var idCheck = parseInt(temp);
+  for (var i = 0; i < data.characters.length; i++) {
+    if (idCheck === data.characters[i].id) {
+      data.characters.splice(i, 1);
+      location.reload();
+      viewSwap('character-entries');
+    }
+  }
+});
+
+window.addEventListener('DOMContentLoaded', function (e) {
+  var currentView = data.view;
+  if (currentView === 'character-entries') {
+    create.classList.remove('hidden');
+    savedEntries.classList.add('hidden');
+    for (var i = 0; i < data.characters.length; i++) {
+      characterView(data.characters[i]);
+    }
+  }
+  viewSwap(currentView);
+});
+
+if (data.characters.length === 0) {
+  noChar.classList.remove('hidden');
+}
