@@ -138,7 +138,7 @@
       </div>
     </div>
     <div class="container">
-      <div data-view="item-selection" class="view items hidden">
+      <form data-view="item-selection" class="view items hidden">
         <label for="weapon">Weapons<br></label>
         <select name="weapon" class="weapon" required>
           <option selected disabled hidden>Select</option>
@@ -151,7 +151,16 @@
         <select name="potion" class="potion" required>
           <option selected disabled hidden>Select</option>
         </select>
-      </div>
+        <div class="row purchase-row">
+          <a href="#" class="purchase">Purchase</a>
+        </div>
+        <div class="row character-confirm">
+
+        </div>
+        <div class="row purchase-row-confirm">
+
+        </div>
+      </form>
     </div>
   </main>
   <script src="js/data.js"></script>

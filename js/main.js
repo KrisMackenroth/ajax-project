@@ -54,6 +54,7 @@ classes.responseType = 'json';
 
 classes.send();
 
+var itemForm = document.querySelector('.items');
 var featureForm = document.querySelector('.feature-form');
 var regenerate = document.querySelector('.regen');
 var alignment = document.querySelector('.alignment');
@@ -361,6 +362,12 @@ entries.addEventListener('click', function (temp) {
         save.classList.add('hidden');
         savedEntries.classList.remove('hidden');
         characterEntry(data.characters[i]);
+        if (Object.prototype.hasOwnProperty.call(data.characters[i], 'inventory')) {
+          var inventoryh2 = document.createElement('h2');
+          var inventoryText = document.createTextNode('Inventory: ' + data.characters[i].inventory.weapon + ', ' + data.characters[i].inventory.armor + ', ' + data.characters[i].inventory.potion);
+          inventoryh2.appendChild(inventoryText);
+          description.appendChild(inventoryh2);
+        }
         image.setAttribute('src', data.characters[i].image);
         viewSwap('character-sheet');
       } else if (temp.target.getAttribute('type') === 'delete') {
@@ -398,11 +405,15 @@ window.addEventListener('DOMContentLoaded', function (e) {
       characterView(data.characters[i]);
     }
   }
+
   viewSwap(currentView);
 });
 
 equipment.addEventListener('click', function () {
   inventory();
+  create.classList.remove('hidden');
+  savedEntries.classList.remove('hidden');
+  itemForm.reset();
   viewSwap('item-selection');
 });
 
@@ -426,3 +437,47 @@ function inventory() {
     potion.appendChild(potionOptions);
   }
 }
+
+var characterConfirm = document.querySelector('.character-confirm');
+var confirmRow = document.querySelector('.purchase-row-confirm');
+
+itemForm.addEventListener('click', function (event) {
+  if (event.target.classList.contains('purchase')) {
+    if (data.characters.length > 0) {
+      var label = document.createElement('label');
+      label.textContent = 'Select which Character';
+      var select = document.createElement('select');
+      select.setAttribute('name', 'character');
+      select.classList.add('itemCharacter');
+
+      var confirm = document.createElement('a');
+      confirm.setAttribute('href', '#');
+      confirm.classList.add('confirm-character');
+      confirm.textContent = 'Confirm';
+      for (var i = 0; i < data.characters.length; i++) {
+        var options = document.createElement('option');
+        var textOptions = document.createTextNode(data.characters[i].name);
+        options.appendChild(textOptions);
+        select.appendChild(options);
+      }
+      label.appendChild(select);
+      characterConfirm.appendChild(label);
+      confirmRow.appendChild(confirm);
+    }
+  }
+  var temp = document.querySelector('.itemCharacter');
+  if (event.target.classList.contains('confirm-character')) {
+    var inventory = {};
+    inventory.weapon = weapon.value;
+    inventory.armor = armor.value;
+    inventory.potion = potion.value;
+    for (var j = 0; j < data.characters.length; j++) {
+      if (temp.value === data.characters[j].name) {
+        data.characters[j].inventory = inventory;
+      }
+    }
+    itemForm.reset();
+    confirmRow.innerHTML = '';
+    characterConfirm.innerHTML = '';
+  }
+});
