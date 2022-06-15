@@ -1,3 +1,27 @@
+var potions = new XMLHttpRequest();
+
+potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
+
+potions.responseType = 'json';
+
+potions.send();
+
+var weapons = new XMLHttpRequest();
+
+weapons.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/weapon');
+
+weapons.responseType = 'json';
+
+weapons.send();
+
+var armors = new XMLHttpRequest();
+
+armors.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/armor');
+
+armors.responseType = 'json';
+
+armors.send();
+
 var alignmentApi = new XMLHttpRequest();
 
 alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
@@ -49,38 +73,17 @@ var regen = document.querySelector('.regen');
 var noChar = document.querySelector('.no-chars');
 var currentCharacter;
 var savedEntries = document.querySelector('.saved');
+var entries = document.querySelector('.entries');
+var weapon = document.querySelector('.weapon');
+var equipment = document.querySelector('.equipment');
+var armor = document.querySelector('.armor');
+var potion = document.querySelector('.potion');
 
-featureForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var newCharacter = {};
-  newCharacter.raceValue = race.value;
-  newCharacter.roleValue = role.value;
-  newCharacter.alignmentValue = alignment.value;
-  if (race.value === 'Random') {
-    var randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-  } else { newCharacter.race = race.value; }
-  if (role.value === 'Random') {
-    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-  } else { newCharacter.class = role.value; }
-  if (alignment.value === 'Random') {
-    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-  } else { newCharacter.alignment = alignment.value; }
-  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-  for (var i = 0; i < classes.response.results.length; i++) {
-    if (newCharacter.class === classes.response.results[i].name) {
-      newCharacter.hitDie = classes.response.results[i].hit_dice;
-      newCharacter.armorProf = classes.response.results[i].prof_armor;
-    }
-  }
-  for (var j = 0; j < races.response.results.length; j++) {
-    if (newCharacter.race === races.response.results[j].name) {
-      newCharacter.size = races.response.results[j].size;
-      newCharacter.languages = races.response.results[j].languages;
-    }
-  }
+if (data.characters.length === 0) {
+  noChar.classList.remove('hidden');
+}
+
+function imageSet(newCharacter) {
   if (newCharacter.class === 'Paladin') {
     image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
     newCharacter.image = 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg';
@@ -118,14 +121,7 @@ featureForm.addEventListener('submit', function (e) {
     image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
     newCharacter.image = 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg';
   }
-  newCharacter.size = newCharacter.size.slice(12);
-  newCharacter.languages = newCharacter.languages.slice(17);
-  currentCharacter = newCharacter;
-  characterEntry(newCharacter);
-  viewSwap('character-sheet');
-  featureForm.reset();
-  return currentCharacter;
-});
+}
 
 function characterEntry(entry) {
   var h2Name = document.createElement('h2');
@@ -164,8 +160,57 @@ function characterEntry(entry) {
   names.send();
 }
 
+function characterView(character) {
+  var firstName = character.name.split(' ');
+  var divRow = document.createElement('div');
+  divRow.classList.add('row');
+  var divBlock = document.createElement('div');
+  divBlock.classList.add('block');
+  var classImage = document.createElement('img');
+  classImage.classList.add('sm-img');
+  classImage.setAttribute('src', character.image);
+  var pName = document.createElement('p');
+  var pRace = document.createElement('p');
+  var pClass = document.createElement('p');
+  var nameText = document.createTextNode(firstName[0]);
+  var raceText = document.createTextNode(character.race);
+  var classText = document.createTextNode(character.class);
+  pName.appendChild(nameText);
+  pRace.appendChild(raceText);
+  pClass.appendChild(classText);
+  var aRow = document.createElement('div');
+  aRow.classList.add('new-row');
+  var viewFullColumn = document.createElement('div');
+  viewFullColumn.classList.add('column-full');
+  viewFullColumn.classList.add('flex');
+  var aView = document.createElement('a');
+  var aDelete = document.createElement('a');
+  aDelete.classList.add('view-char');
+  aDelete.classList.add('column-half');
+  aDelete.setAttribute('href', '#');
+  aDelete.setAttribute('id', character.id);
+  aDelete.setAttribute('type', 'delete');
+  aDelete.textContent = 'Delete';
+  aView.classList.add('view-char');
+  aView.classList.add('column-half');
+  aView.setAttribute('href', '#');
+  aView.setAttribute('type', 'view');
+  aView.textContent = 'View';
+  aView.setAttribute('id', character.id);
+  viewFullColumn.appendChild(aView);
+  viewFullColumn.appendChild(aDelete);
+  divRow.appendChild(divBlock);
+  divBlock.appendChild(classImage);
+  divBlock.appendChild(pName);
+  divBlock.appendChild(pRace);
+  divBlock.appendChild(pClass);
+  aRow.appendChild(viewFullColumn);
+  entries.appendChild(divRow);
+  entries.appendChild(aRow);
+}
+
 function viewSwap(event) {
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 4; i++) {
     if (view[i].getAttribute('data-view') === event) {
       view[i].classList.remove('hidden');
       view[i].classList.add('active');
@@ -175,6 +220,47 @@ function viewSwap(event) {
   }
   featureForm.reset();
 }
+
+featureForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var newCharacter = {};
+  newCharacter.raceValue = race.value;
+  newCharacter.roleValue = role.value;
+  newCharacter.alignmentValue = alignment.value;
+  if (race.value === 'Random') {
+    var randomIndex = Math.floor(Math.random() * races.response.results.length);
+    newCharacter.race = races.response.results[randomIndex].name;
+  } else { newCharacter.race = race.value; }
+  if (role.value === 'Random') {
+    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+    newCharacter.class = classes.response.results[classesIndex].name;
+  } else { newCharacter.class = role.value; }
+  if (alignment.value === 'Random') {
+    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+  } else { newCharacter.alignment = alignment.value; }
+  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+  for (var i = 0; i < classes.response.results.length; i++) {
+    if (newCharacter.class === classes.response.results[i].name) {
+      newCharacter.hitDie = classes.response.results[i].hit_dice;
+      newCharacter.armorProf = classes.response.results[i].prof_armor;
+    }
+  }
+  for (var j = 0; j < races.response.results.length; j++) {
+    if (newCharacter.race === races.response.results[j].name) {
+      newCharacter.size = races.response.results[j].size;
+      newCharacter.languages = races.response.results[j].languages;
+    }
+  }
+  imageSet(newCharacter);
+  newCharacter.size = newCharacter.size.slice(12);
+  newCharacter.languages = newCharacter.languages.slice(17);
+  currentCharacter = newCharacter;
+  characterEntry(newCharacter);
+  viewSwap('character-sheet');
+  featureForm.reset();
+  return currentCharacter;
+});
 
 create.addEventListener('click', function () {
   viewSwap('feature-form');
@@ -233,43 +319,7 @@ regenerate.addEventListener('click', function (e) {
       newCharacter.languages = races.response.results[j].languages;
     }
   }
-  if (newCharacter.class === 'Paladin') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg';
-  } else if (newCharacter.class === 'Druid') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg';
-  } else if (newCharacter.class === 'Barbarian') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg';
-  } else if (newCharacter.class === 'Bard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg';
-  } else if (newCharacter.class === 'Cleric') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg';
-  } else if (newCharacter.class === 'Fighter') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg';
-  } else if (newCharacter.class === 'Monk') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg';
-  } else if (newCharacter.class === 'Ranger') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg';
-  } else if (newCharacter.class === 'Rogue') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg';
-  } else if (newCharacter.class === 'Sorcerer') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg';
-  } else if (newCharacter.class === 'Warlock') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg';
-  } else if (newCharacter.class === 'Wizard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg';
-  }
+  imageSet(newCharacter);
   newCharacter.size = newCharacter.size.slice(12);
   newCharacter.languages = newCharacter.languages.slice(17);
   currentCharacter = newCharacter;
@@ -283,56 +333,6 @@ save.addEventListener('click', function () {
   viewSwap('feature-form');
   data.nextEntryId++;
 });
-
-var entries = document.querySelector('.entries');
-function characterView(character) {
-  var firstName = character.name.split(' ');
-  var divRow = document.createElement('div');
-  divRow.classList.add('row');
-  var divBlock = document.createElement('div');
-  divBlock.classList.add('block');
-  var classImage = document.createElement('img');
-  classImage.classList.add('sm-img');
-  classImage.setAttribute('src', character.image);
-  var pName = document.createElement('p');
-  var pRace = document.createElement('p');
-  var pClass = document.createElement('p');
-  var nameText = document.createTextNode(firstName[0]);
-  var raceText = document.createTextNode(character.race);
-  var classText = document.createTextNode(character.class);
-  pName.appendChild(nameText);
-  pRace.appendChild(raceText);
-  pClass.appendChild(classText);
-  var aRow = document.createElement('div');
-  aRow.classList.add('new-row');
-  var viewFullColumn = document.createElement('div');
-  viewFullColumn.classList.add('column-full');
-  viewFullColumn.classList.add('flex');
-  var aView = document.createElement('a');
-  var aDelete = document.createElement('a');
-  aDelete.classList.add('view-char');
-  aDelete.classList.add('column-half');
-  aDelete.setAttribute('href', '#');
-  aDelete.setAttribute('id', character.id);
-  aDelete.setAttribute('type', 'delete');
-  aDelete.textContent = 'Delete';
-  aView.classList.add('view-char');
-  aView.classList.add('column-half');
-  aView.setAttribute('href', '#');
-  aView.setAttribute('type', 'view');
-  aView.textContent = 'View';
-  aView.setAttribute('id', character.id);
-  viewFullColumn.appendChild(aView);
-  viewFullColumn.appendChild(aDelete);
-  divRow.appendChild(divBlock);
-  divBlock.appendChild(classImage);
-  divBlock.appendChild(pName);
-  divBlock.appendChild(pRace);
-  divBlock.appendChild(pClass);
-  aRow.appendChild(viewFullColumn);
-  entries.appendChild(divRow);
-  entries.appendChild(aRow);
-}
 
 savedEntries.addEventListener('click', function (character) {
   info.innerHTML = '';
@@ -401,6 +401,28 @@ window.addEventListener('DOMContentLoaded', function (e) {
   viewSwap(currentView);
 });
 
-if (data.characters.length === 0) {
-  noChar.classList.remove('hidden');
+equipment.addEventListener('click', function () {
+  inventory();
+  viewSwap('item-selection');
+});
+
+function inventory() {
+  for (var i = 0; i < weapons.response.equipment.length; i++) {
+    var options = document.createElement('option');
+    var textOptions = document.createTextNode(weapons.response.equipment[i].name);
+    options.appendChild(textOptions);
+    weapon.appendChild(options);
+  }
+  for (var j = 0; j < armors.response.equipment.length; j++) {
+    var armorOptions = document.createElement('option');
+    var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
+    armorOptions.appendChild(armorTextOptions);
+    armor.appendChild(armorOptions);
+  }
+  for (var k = 0; k < potions.response.equipment.length; k++) {
+    var potionOptions = document.createElement('option');
+    var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
+    potionOptions.appendChild(potionTextOptions);
+    potion.appendChild(potionOptions);
+  }
 }

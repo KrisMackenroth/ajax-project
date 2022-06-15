@@ -31,6 +31,7 @@
         <div class="column-half">
           <a class="saved" href="#">Saved</a>
         </div>
+        <a class="equipment" href="#">Equipment</a>
       </div>
     </div>
   </header>
@@ -134,7 +135,22 @@
         <div class="row no-chars hidden">
           <p>No characters created</p>
         </div>
-
+      </div>
+    </div>
+    <div class="container">
+      <div data-view="item-selection" class="view items hidden">
+        <label for="weapon">Weapons<br></label>
+        <select name="weapon" class="weapon" required>
+          <option selected disabled hidden>Select</option>
+        </select>
+        <label for="armor">Armors<br></label>
+        <select name="armor" class="armor" required>
+          <option selected disabled hidden>Select</option>
+        </select>
+        <label for="potion">Potions<br></label>
+        <select name="potion" class="potion" required>
+          <option selected disabled hidden>Select</option>
+        </select>
       </div>
     </div>
   </main>
