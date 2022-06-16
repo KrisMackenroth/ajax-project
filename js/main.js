@@ -79,48 +79,36 @@ var weapon = document.querySelector('.weapon');
 var equipment = document.querySelector('.equipment');
 var armor = document.querySelector('.armor');
 var potion = document.querySelector('.potion');
+var characterConfirm = document.querySelector('.character-confirm');
+var confirmRow = document.querySelector('.purchase-row-confirm');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
 }
 
 function imageSet(newCharacter) {
-  if (newCharacter.class === 'Paladin') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg';
-  } else if (newCharacter.class === 'Druid') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg';
-  } else if (newCharacter.class === 'Barbarian') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg';
-  } else if (newCharacter.class === 'Bard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg';
-  } else if (newCharacter.class === 'Cleric') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg';
-  } else if (newCharacter.class === 'Fighter') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg';
-  } else if (newCharacter.class === 'Monk') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg';
-  } else if (newCharacter.class === 'Ranger') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg';
-  } else if (newCharacter.class === 'Rogue') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg';
-  } else if (newCharacter.class === 'Sorcerer') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg';
-  } else if (newCharacter.class === 'Warlock') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg';
-  } else if (newCharacter.class === 'Wizard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg';
+  image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
+  newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
+}
+
+function inventory() {
+  for (var i = 0; i < weapons.response.equipment.length; i++) {
+    var options = document.createElement('option');
+    var textOptions = document.createTextNode(weapons.response.equipment[i].name);
+    options.appendChild(textOptions);
+    weapon.appendChild(options);
+  }
+  for (var j = 0; j < armors.response.equipment.length; j++) {
+    var armorOptions = document.createElement('option');
+    var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
+    armorOptions.appendChild(armorTextOptions);
+    armor.appendChild(armorOptions);
+  }
+  for (var k = 0; k < potions.response.equipment.length; k++) {
+    var potionOptions = document.createElement('option');
+    var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
+    potionOptions.appendChild(potionTextOptions);
+    potion.appendChild(potionOptions);
   }
 }
 
@@ -270,6 +258,7 @@ create.addEventListener('click', function () {
     description.innerHTML = '';
     entries.innerHTML = '';
     noChar.classList.add('hidden');
+    sort.classList.add('hidden');
   }
   regen.classList.remove('hidden');
   save.classList.remove('hidden');
@@ -335,9 +324,12 @@ save.addEventListener('click', function () {
   data.nextEntryId++;
 });
 
+var sort = document.querySelector('.sort');
+
 savedEntries.addEventListener('click', function (character) {
   info.innerHTML = '';
   description.innerHTML = '';
+  sort.classList.remove('hidden');
   create.classList.remove('hidden');
   savedEntries.classList.add('hidden');
   if (data.characters.length === 0) {
@@ -405,41 +397,20 @@ window.addEventListener('DOMContentLoaded', function (e) {
       characterView(data.characters[i]);
     }
   }
-
   viewSwap(currentView);
 });
 
 equipment.addEventListener('click', function () {
   inventory();
+  info.innerHTML = '';
+  description.innerHTML = '';
+  entries.innerHTML = '';
   create.classList.remove('hidden');
   savedEntries.classList.remove('hidden');
+  sort.classList.add('hidden');
   itemForm.reset();
   viewSwap('item-selection');
 });
-
-function inventory() {
-  for (var i = 0; i < weapons.response.equipment.length; i++) {
-    var options = document.createElement('option');
-    var textOptions = document.createTextNode(weapons.response.equipment[i].name);
-    options.appendChild(textOptions);
-    weapon.appendChild(options);
-  }
-  for (var j = 0; j < armors.response.equipment.length; j++) {
-    var armorOptions = document.createElement('option');
-    var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
-    armorOptions.appendChild(armorTextOptions);
-    armor.appendChild(armorOptions);
-  }
-  for (var k = 0; k < potions.response.equipment.length; k++) {
-    var potionOptions = document.createElement('option');
-    var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
-    potionOptions.appendChild(potionTextOptions);
-    potion.appendChild(potionOptions);
-  }
-}
-
-var characterConfirm = document.querySelector('.character-confirm');
-var confirmRow = document.querySelector('.purchase-row-confirm');
 
 itemForm.addEventListener('click', function (event) {
   if (event.target.classList.contains('purchase')) {
@@ -481,3 +452,61 @@ itemForm.addEventListener('click', function (event) {
     characterConfirm.innerHTML = '';
   }
 });
+
+var sortButton = document.querySelector('.sort-button');
+var sortRace = document.querySelector('.race-sort');
+var sortName = document.querySelector('.name-sort');
+
+sortButton.addEventListener('click', function () {
+  entries.innerHTML = '';
+  data.characters.sort(compareClass);
+  for (var i = 0; i < data.characters.length; i++) {
+    characterView(data.characters[i]);
+  }
+});
+
+sortRace.addEventListener('click', function () {
+  entries.innerHTML = '';
+  data.characters.sort(compareRaces);
+  for (var i = 0; i < data.characters.length; i++) {
+    characterView(data.characters[i]);
+  }
+});
+
+sortName.addEventListener('click', function () {
+  entries.innerHTML = '';
+  data.characters.sort(compareName);
+  for (var i = 0; i < data.characters.length; i++) {
+    characterView(data.characters[i]);
+  }
+});
+
+function compareClass(a, b) {
+  if (a.class.toLowerCase() < b.class.toLowerCase()) {
+    return -1;
+  }
+  if (a.class.toLowerCase() > b.class.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareRaces(a, b) {
+  if (a.race.toLowerCase() < b.race.toLowerCase()) {
+    return -1;
+  }
+  if (a.race.toLowerCase() > b.race.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareName(a, b) {
+  if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.name.toLowerCase() > b.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}

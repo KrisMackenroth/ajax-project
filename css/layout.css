@@ -9,16 +9,26 @@
 .container {
   max-width: 575px;
   margin: 0 auto;
+
+  /* background-color: rgba(0, 0, 0, 0.607); */
+  background-color: #fdf0d5;
 }
 
 .container-two {
   margin: 0 20px;
+  background-color: #fdf0d5;
 }
 
 .row {
   text-align: center;
   width: 50%;
   margin: auto;
+}
+
+.full-row {
+  width: 100%;
+  margin: auto;
+  text-align: center;
 }
 
 .new-row {
