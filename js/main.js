@@ -65,8 +65,6 @@ var image = document.querySelector('img');
 var view = document.querySelectorAll('.view');
 var save = document.querySelector('.save');
 var yesButton = document.querySelector('.yes-button');
-var hiddenTwo = document.querySelector('.hidden-two');
-var hiddenBackground = document.querySelector('.hidden-background');
 var regen = document.querySelector('.regen');
 var noChar = document.querySelector('.no-chars');
 var currentCharacter;
@@ -80,6 +78,8 @@ var characterSelect = document.querySelector('.character-select');
 var header = document.querySelector('header');
 var characterEntries = document.querySelector('.character-entries');
 var itemSelection = document.querySelector('.item-selection');
+var pop = document.querySelector('.pop');
+var background = document.querySelector('.background');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
@@ -193,13 +193,10 @@ function characterView(character) {
   classImage.classList.add('sm-img');
   classImage.setAttribute('src', character.image);
   var pName = document.createElement('p');
-  var pRace = document.createElement('p');
   var pClass = document.createElement('p');
   var nameText = document.createTextNode(firstName[0]);
-  var raceText = document.createTextNode(character.race);
   var classText = document.createTextNode(character.class);
   pName.appendChild(nameText);
-  pRace.appendChild(raceText);
   pClass.appendChild(classText);
   var aRow = document.createElement('div');
   aRow.classList.add('new-row');
@@ -225,7 +222,6 @@ function characterView(character) {
   divRow.appendChild(divBlock);
   divBlock.appendChild(classImage);
   divBlock.appendChild(pName);
-  divBlock.appendChild(pRace);
   divBlock.appendChild(pClass);
   aRow.appendChild(viewFullColumn);
   characterSelect.appendChild(divRow);
@@ -364,15 +360,15 @@ characterEntries.addEventListener('click', function (event) {
         image.setAttribute('src', data.characters[m].image);
         viewSwap('character-sheet');
       } else if (event.target.getAttribute('type') === 'delete') {
-        hiddenTwo.className = 'visible';
-        hiddenBackground.className = 'background';
+        pop.classList.remove('hidden');
+        background.classList.remove('hidden');
         yesButton.setAttribute('id', newNum);
       }
     }
   }
   if (event.target.classList.contains('cold-button')) {
-    hiddenTwo.className = 'hidden';
-    hiddenBackground.className = 'hidden-background';
+    pop.classList.add('hidden');
+    background.classList.add('hidden');
   } else if (event.target.classList.contains('yes-button')) {
     var temp = yesButton.getAttribute('id');
     var idCheck = parseInt(temp);

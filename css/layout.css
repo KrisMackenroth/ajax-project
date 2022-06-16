@@ -2,10 +2,6 @@
   display: none !important;
 }
 
-.hidden-two {
-  display: none;
-}
-
 .container {
   max-width: 575px;
   margin: 0 auto;
@@ -18,6 +14,7 @@
 }
 
 .row {
+  flex-wrap: wrap;
   text-align: center;
   width: 50%;
   margin: auto;
@@ -39,6 +36,11 @@
   margin: auto;
   width: 100%;
   margin-top: 15%;
+}
+
+.column-main {
+  width: 100%;
+  margin-top: 75px;
 }
 
 .column-full,
