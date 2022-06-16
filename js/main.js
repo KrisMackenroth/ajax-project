@@ -1,3 +1,4 @@
+// List of retrieved API's.
 var potions = new XMLHttpRequest();
 
 potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
@@ -54,9 +55,7 @@ classes.responseType = 'json';
 
 classes.send();
 
-var itemForm = document.querySelector('.items');
 var featureForm = document.querySelector('.feature-form');
-var regenerate = document.querySelector('.regen');
 var alignment = document.querySelector('.alignment');
 var role = document.querySelector('.role');
 var race = document.querySelector('.race');
@@ -64,33 +63,66 @@ var info = document.querySelector('.info');
 var description = document.querySelector('.description');
 var image = document.querySelector('img');
 var view = document.querySelectorAll('.view');
-var create = document.querySelector('.create');
 var save = document.querySelector('.save');
 var yesButton = document.querySelector('.yes-button');
 var hiddenTwo = document.querySelector('.hidden-two');
-var coldButton = document.querySelector('.cold-button');
 var hiddenBackground = document.querySelector('.hidden-background');
 var regen = document.querySelector('.regen');
 var noChar = document.querySelector('.no-chars');
 var currentCharacter;
-var savedEntries = document.querySelector('.saved');
-var entries = document.querySelector('.entries');
 var weapon = document.querySelector('.weapon');
-var equipment = document.querySelector('.equipment');
 var armor = document.querySelector('.armor');
 var potion = document.querySelector('.potion');
 var characterConfirm = document.querySelector('.character-confirm');
 var confirmRow = document.querySelector('.purchase-row-confirm');
+var characterSheet = document.querySelector('.character-info');
+var characterSelect = document.querySelector('.character-select');
+var header = document.querySelector('header');
+var characterEntries = document.querySelector('.character-entries');
+var itemSelection = document.querySelector('.item-selection');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
 }
 
+// This function sets the image of a character based on if the class name matches the index of an image.
 function imageSet(newCharacter) {
   image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
   newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
 }
 
+// These three functions sort saved entries alphabetically based on class, race, or name.
+function compareClass(a, b) {
+  if (a.class.toLowerCase() < b.class.toLowerCase()) {
+    return -1;
+  }
+  if (a.class.toLowerCase() > b.class.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareRaces(a, b) {
+  if (a.race.toLowerCase() < b.race.toLowerCase()) {
+    return -1;
+  }
+  if (a.race.toLowerCase() > b.race.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareName(a, b) {
+  if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.name.toLowerCase() > b.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+// Populates the inventory with weapons, armor, and potions from the pulled API.
 function inventory() {
   for (var i = 0; i < weapons.response.equipment.length; i++) {
     var options = document.createElement('option');
@@ -112,6 +144,7 @@ function inventory() {
   }
 }
 
+// Creates a character sheet when a character is generated or a saved character is viewed.
 function characterEntry(entry) {
   var h2Name = document.createElement('h2');
   var h2Class = document.createElement('h2');
@@ -149,6 +182,7 @@ function characterEntry(entry) {
   names.send();
 }
 
+// Generates all characters that have been saved to local storage.
 function characterView(character) {
   var firstName = character.name.split(' ');
   var divRow = document.createElement('div');
@@ -194,10 +228,11 @@ function characterView(character) {
   divBlock.appendChild(pRace);
   divBlock.appendChild(pClass);
   aRow.appendChild(viewFullColumn);
-  entries.appendChild(divRow);
-  entries.appendChild(aRow);
+  characterSelect.appendChild(divRow);
+  characterSelect.appendChild(aRow);
 }
 
+// Swaps to the correct view depenending on the data-view of the event that is clicked.
 function viewSwap(event) {
   for (var i = 0; i < 4; i++) {
     if (view[i].getAttribute('data-view') === event) {
@@ -209,7 +244,17 @@ function viewSwap(event) {
   }
   featureForm.reset();
 }
+// If the page is reloaded, character entries are created, as well as allowing the page to switch
+// to the view that the user was on prior to the reload.
+window.addEventListener('DOMContentLoaded', function (e) {
+  var currentView = data.view;
+  for (var i = 0; i < data.characters.length; i++) {
+    characterView(data.characters[i]);
+  }
+  viewSwap(currentView);
+});
 
+// Handles character generation and character storage to local storage.
 featureForm.addEventListener('submit', function (e) {
   e.preventDefault();
   var newCharacter = {};
@@ -251,168 +296,98 @@ featureForm.addEventListener('submit', function (e) {
   return currentCharacter;
 });
 
-create.addEventListener('click', function () {
-  viewSwap('feature-form');
-  if (data.characters.length > 0) {
+// Handles clicks for the create, saved, and equipment header buttons.
+header.addEventListener('click', function (event) {
+  if (event.target.classList.contains('create')) {
+    viewSwap('feature-form');
+    if (data.characters.length > 0) {
+      info.innerHTML = '';
+      description.innerHTML = '';
+      noChar.classList.add('hidden');
+    }
+    regen.classList.remove('hidden');
+    names.open('GET', 'https://randomuser.me/api/');
+    names.send();
+  } else if (event.target.classList.contains('saved')) {
     info.innerHTML = '';
     description.innerHTML = '';
-    entries.innerHTML = '';
-    noChar.classList.add('hidden');
-    sort.classList.add('hidden');
-  }
-  regen.classList.remove('hidden');
-  save.classList.remove('hidden');
-  create.classList.add('hidden');
-  savedEntries.classList.remove('hidden');
-  names.open('GET', 'https://randomuser.me/api/');
-  names.send();
-});
-
-regenerate.addEventListener('click', function (e) {
-  info.innerHTML = '';
-  description.innerHTML = '';
-  var newCharacter = {};
-  if (currentCharacter.raceValue === 'Random') {
-    var randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-    newCharacter.raceValue = 'Random';
-  } else {
-    newCharacter.race = currentCharacter.raceValue;
-    newCharacter.raceValue = currentCharacter.raceValue;
-  }
-  if (currentCharacter.roleValue === 'Random') {
-    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-    newCharacter.roleValue = 'Random';
-  } else {
-    newCharacter.class = currentCharacter.roleValue;
-    newCharacter.roleValue = currentCharacter.roleValue;
-  }
-  if (currentCharacter.alignmentValue === 'Random') {
-    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-    newCharacter.alignmentValue = 'Random';
-  } else {
-    newCharacter.alignment = currentCharacter.alignmentValue;
-    newCharacter.alignmentValue = currentCharacter.alignmentValue;
-  }
-  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-  for (var i = 0; i < classes.response.results.length; i++) {
-    if (newCharacter.class === classes.response.results[i].name) {
-      newCharacter.hitDie = classes.response.results[i].hit_dice;
-      newCharacter.armorProf = classes.response.results[i].prof_armor;
+    if (data.characters.length === 0) {
+      noChar.classList.remove('hidden');
+    } else if (data.characters.length > 0) {
+      noChar.classList.add('hidden');
     }
-  }
-  for (var j = 0; j < races.response.results.length; j++) {
-    if (newCharacter.race === races.response.results[j].name) {
-      newCharacter.size = races.response.results[j].size;
-      newCharacter.languages = races.response.results[j].languages;
-    }
-  }
-  imageSet(newCharacter);
-  newCharacter.size = newCharacter.size.slice(12);
-  newCharacter.languages = newCharacter.languages.slice(17);
-  currentCharacter = newCharacter;
-  characterEntry(newCharacter);
-  return currentCharacter;
-});
-
-save.addEventListener('click', function () {
-  currentCharacter.id = data.nextEntryId;
-  data.characters.unshift(currentCharacter);
-  viewSwap('feature-form');
-  data.nextEntryId++;
-});
-
-var sort = document.querySelector('.sort');
-
-savedEntries.addEventListener('click', function (character) {
-  info.innerHTML = '';
-  description.innerHTML = '';
-  sort.classList.remove('hidden');
-  create.classList.remove('hidden');
-  savedEntries.classList.add('hidden');
-  if (data.characters.length === 0) {
-    noChar.classList.remove('hidden');
-  } else if (data.characters.length > 0) {
-    noChar.classList.add('hidden');
-  }
-  viewSwap('character-entries');
-  for (var i = 0; i < data.characters.length; i++) {
-    characterView(data.characters[i]);
+    viewSwap('character-entries');
+  } else if (event.target.classList.contains('equipment')) {
+    inventory();
+    info.innerHTML = '';
+    description.innerHTML = '';
+    itemSelection.reset();
+    viewSwap('item-selection');
   }
 });
 
-entries.addEventListener('click', function (temp) {
-  var oldNum = temp.target.getAttribute('id');
+// Handles clicks on the characters entries page.
+characterEntries.addEventListener('click', function (event) {
+  var oldNum = event.target.getAttribute('id');
   var newNum = parseInt(oldNum);
-  for (var i = 0; i < data.characters.length; i++) {
-    if (newNum === data.characters[i].id) {
-      if (temp.target.getAttribute('type') === 'view') {
-        entries.innerHTML = '';
+  if (event.target.classList.contains('class-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareClass);
+    for (var i = 0; i < data.characters.length; i++) {
+      characterView(data.characters[i]);
+    }
+  } else if (event.target.classList.contains('race-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareRaces);
+    for (var k = 0; k < data.characters.length; k++) {
+      characterView(data.characters[k]);
+    }
+  } else if (event.target.classList.contains('name-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareName);
+    for (var l = 0; l < data.characters.length; l++) {
+      characterView(data.characters[l]);
+    }
+  }
+  for (var m = 0; m < data.characters.length; m++) {
+    if (newNum === data.characters[m].id) {
+      if (event.target.getAttribute('type') === 'view') {
         regen.classList.add('hidden');
         save.classList.add('hidden');
-        savedEntries.classList.remove('hidden');
-        characterEntry(data.characters[i]);
-        if (Object.prototype.hasOwnProperty.call(data.characters[i], 'inventory')) {
+        characterEntry(data.characters[m]);
+        if (Object.prototype.hasOwnProperty.call(data.characters[m], 'inventory')) {
           var inventoryh2 = document.createElement('h2');
-          var inventoryText = document.createTextNode('Inventory: ' + data.characters[i].inventory.weapon + ', ' + data.characters[i].inventory.armor + ', ' + data.characters[i].inventory.potion);
+          var inventoryText = document.createTextNode('Inventory: ' + data.characters[m].inventory.weapon + ', ' + data.characters[m].inventory.armor + ', ' + data.characters[m].inventory.potion);
           inventoryh2.appendChild(inventoryText);
           description.appendChild(inventoryh2);
         }
-        image.setAttribute('src', data.characters[i].image);
+        image.setAttribute('src', data.characters[m].image);
         viewSwap('character-sheet');
-      } else if (temp.target.getAttribute('type') === 'delete') {
+      } else if (event.target.getAttribute('type') === 'delete') {
         hiddenTwo.className = 'visible';
         hiddenBackground.className = 'background';
         yesButton.setAttribute('id', newNum);
       }
     }
   }
-});
-
-coldButton.addEventListener('click', function (event) {
-  hiddenTwo.className = 'hidden';
-  hiddenBackground.className = 'hidden-background';
-});
-
-yesButton.addEventListener('click', function (event) {
-  var temp = yesButton.getAttribute('id');
-  var idCheck = parseInt(temp);
-  for (var i = 0; i < data.characters.length; i++) {
-    if (idCheck === data.characters[i].id) {
-      data.characters.splice(i, 1);
-      location.reload();
-      viewSwap('character-entries');
+  if (event.target.classList.contains('cold-button')) {
+    hiddenTwo.className = 'hidden';
+    hiddenBackground.className = 'hidden-background';
+  } else if (event.target.classList.contains('yes-button')) {
+    var temp = yesButton.getAttribute('id');
+    var idCheck = parseInt(temp);
+    for (var n = 0; n < data.characters.length; n++) {
+      if (idCheck === data.characters[n].id) {
+        data.characters.splice(n, 1);
+        location.reload();
+        viewSwap('character-entries');
+      }
     }
   }
 });
 
-window.addEventListener('DOMContentLoaded', function (e) {
-  var currentView = data.view;
-  if (currentView === 'character-entries') {
-    create.classList.remove('hidden');
-    savedEntries.classList.add('hidden');
-    for (var i = 0; i < data.characters.length; i++) {
-      characterView(data.characters[i]);
-    }
-  }
-  viewSwap(currentView);
-});
-
-equipment.addEventListener('click', function () {
-  inventory();
-  info.innerHTML = '';
-  description.innerHTML = '';
-  entries.innerHTML = '';
-  create.classList.remove('hidden');
-  savedEntries.classList.remove('hidden');
-  sort.classList.add('hidden');
-  itemForm.reset();
-  viewSwap('item-selection');
-});
-
-itemForm.addEventListener('click', function (event) {
+// Handles clicks on the item selection page.
+itemSelection.addEventListener('click', function (event) {
   if (event.target.classList.contains('purchase')) {
     if (data.characters.length > 0) {
       var label = document.createElement('label');
@@ -420,7 +395,6 @@ itemForm.addEventListener('click', function (event) {
       var select = document.createElement('select');
       select.setAttribute('name', 'character');
       select.classList.add('itemCharacter');
-
       var confirm = document.createElement('a');
       confirm.setAttribute('href', '#');
       confirm.classList.add('confirm-character');
@@ -447,66 +421,66 @@ itemForm.addEventListener('click', function (event) {
         data.characters[j].inventory = inventory;
       }
     }
-    itemForm.reset();
+    itemSelection.reset();
     confirmRow.innerHTML = '';
     characterConfirm.innerHTML = '';
   }
 });
 
-var sortButton = document.querySelector('.sort-button');
-var sortRace = document.querySelector('.race-sort');
-var sortName = document.querySelector('.name-sort');
-
-sortButton.addEventListener('click', function () {
-  entries.innerHTML = '';
-  data.characters.sort(compareClass);
-  for (var i = 0; i < data.characters.length; i++) {
-    characterView(data.characters[i]);
+// Handles clicks on the character sheet page.
+characterSheet.addEventListener('click', function (event) {
+  if (event.target.classList.contains('regen')) {
+    info.innerHTML = '';
+    description.innerHTML = '';
+    var newCharacter = {};
+    if (currentCharacter.raceValue === 'Random') {
+      var randomIndex = Math.floor(Math.random() * races.response.results.length);
+      newCharacter.race = races.response.results[randomIndex].name;
+      newCharacter.raceValue = 'Random';
+    } else {
+      newCharacter.race = currentCharacter.raceValue;
+      newCharacter.raceValue = currentCharacter.raceValue;
+    }
+    if (currentCharacter.roleValue === 'Random') {
+      var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+      newCharacter.class = classes.response.results[classesIndex].name;
+      newCharacter.roleValue = 'Random';
+    } else {
+      newCharacter.class = currentCharacter.roleValue;
+      newCharacter.roleValue = currentCharacter.roleValue;
+    }
+    if (currentCharacter.alignmentValue === 'Random') {
+      var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+      newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+      newCharacter.alignmentValue = 'Random';
+    } else {
+      newCharacter.alignment = currentCharacter.alignmentValue;
+      newCharacter.alignmentValue = currentCharacter.alignmentValue;
+    }
+    newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    for (var i = 0; i < classes.response.results.length; i++) {
+      if (newCharacter.class === classes.response.results[i].name) {
+        newCharacter.hitDie = classes.response.results[i].hit_dice;
+        newCharacter.armorProf = classes.response.results[i].prof_armor;
+      }
+    }
+    for (var j = 0; j < races.response.results.length; j++) {
+      if (newCharacter.race === races.response.results[j].name) {
+        newCharacter.size = races.response.results[j].size;
+        newCharacter.languages = races.response.results[j].languages;
+      }
+    }
+    imageSet(newCharacter);
+    newCharacter.size = newCharacter.size.slice(12);
+    newCharacter.languages = newCharacter.languages.slice(17);
+    currentCharacter = newCharacter;
+    characterEntry(newCharacter);
+    return currentCharacter;
+  } else if (event.target.classList.contains('save')) {
+    currentCharacter.id = data.nextEntryId;
+    data.characters.unshift(currentCharacter);
+    viewSwap('feature-form');
+    data.nextEntryId++;
+    location.reload();
   }
 });
-
-sortRace.addEventListener('click', function () {
-  entries.innerHTML = '';
-  data.characters.sort(compareRaces);
-  for (var i = 0; i < data.characters.length; i++) {
-    characterView(data.characters[i]);
-  }
-});
-
-sortName.addEventListener('click', function () {
-  entries.innerHTML = '';
-  data.characters.sort(compareName);
-  for (var i = 0; i < data.characters.length; i++) {
-    characterView(data.characters[i]);
-  }
-});
-
-function compareClass(a, b) {
-  if (a.class.toLowerCase() < b.class.toLowerCase()) {
-    return -1;
-  }
-  if (a.class.toLowerCase() > b.class.toLowerCase()) {
-    return 1;
-  }
-  return 0;
-}
-
-function compareRaces(a, b) {
-  if (a.race.toLowerCase() < b.race.toLowerCase()) {
-    return -1;
-  }
-  if (a.race.toLowerCase() > b.race.toLowerCase()) {
-    return 1;
-  }
-  return 0;
-}
-
-function compareName(a, b) {
-  if (a.name.toLowerCase() < b.name.toLowerCase()) {
-    return -1;
-  }
-  if (a.name.toLowerCase() > b.name.toLowerCase()) {
-    return 1;
-  }
-  return 0;
-}

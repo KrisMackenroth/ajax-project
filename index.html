@@ -25,13 +25,15 @@
     <h1>Character Generator</h1>
     <div class="row header-row">
       <div class="column-full flex">
-        <div class="column-half">
-          <a class="create hidden" href="#">Create</a>
+        <div class="column-one-third">
+          <a class="create" href="#">Create</a>
         </div>
-        <div class="column-half">
+        <div class="column-one-third">
           <a class="saved" href="#">Saved</a>
         </div>
-        <a class="equipment" href="#">Equipment</a>
+        <div class="column-one-third">
+          <a class="equipment" href="#">Equipment</a>
+        </div>
       </div>
     </div>
   </header>
@@ -40,7 +42,7 @@
     <div class="container">
       <form data-view="feature-form" class="feature-form view active">
         <div class="row">
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="class">Class<br></label>
             <select name="class" class="role" required>
               <option selected disabled hidden>Select</option>
@@ -59,7 +61,7 @@
               <option>Druid</option>
             </select>
           </div>
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="race">Race<br></label>
             <select name="race" class="race" required>
               <option selected disabled hidden>Select</option>
@@ -75,7 +77,7 @@
               <option>Tiefling</option>
             </select>
           </div>
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="alignment">Alignment<br></label>
             <select name="alignment" class="alignment" required>
               <option selected disabled hidden>Select</option>
@@ -97,9 +99,6 @@
         </div>
       </form>
     </div>
-
-
-
     <div class="container-two">
       <div data-view="character-sheet" class="view hidden character-info">
         <div class="row regenerate">
@@ -118,36 +117,38 @@
       </div>
     </div>
     <div class="container">
-      <div class="sort hidden row">
-        <a href="#" class="sort-button">Sort by Class</a>
-        <a href="#" class="race-sort">Sort by Race</a>
-        <a href="#" class="name-sort">Sort by Name</a>
-      </div>
-      <div class="hidden-background">
-        <div class="hidden-two">
-          <div class="pop">
-            <p class="text-modal">Are you sure?</p>
-            <div class="modal-row">
-              <div class="column-full flex">
-                <div class="column-half">
-                  <a href="#" class="cold-button">Cancel</a>
-                </div>
-                <div class="column-half">
-                  <a href="#" class="yes-button">Confirm</a>
+      <div data-view="character-entries" class="character-entries view entries hidden">
+        <div class="hidden-background">
+          <div class="hidden-two">
+            <div class="pop">
+              <p class="text-modal">Are you sure?</p>
+              <div class="modal-row">
+                <div class="column-full flex">
+                  <div class="column-half">
+                    <a href="#" class="cold-button">Cancel</a>
+                  </div>
+                  <div class="column-half">
+                    <a href="#" class="yes-button">Confirm</a>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div data-view="character-entries" class="view entries hidden">
+        <div class="sort row">
+          <a href="#" class="class-sort">Sort by Class</a>
+          <a href="#" class="race-sort">Sort by Race</a>
+          <a href="#" class="name-sort">Sort by Name</a>
+        </div>
+        <div class="character-select">
+        </div>
         <div class="row no-chars hidden">
           <p>No characters created</p>
         </div>
       </div>
     </div>
     <div class="container">
-      <form data-view="item-selection" class="view items hidden">
+      <form data-view="item-selection" class="view hidden item-selection">
         <label for="weapon">Weapons<br></label>
         <select name="weapon" class="weapon" required>
           <option selected disabled hidden>Select</option>

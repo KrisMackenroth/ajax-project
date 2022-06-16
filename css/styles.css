@@ -1,7 +1,54 @@
+@media screen and (max-width: 400px) {
+  a {
+    padding-right: 5px;
+    padding-left: 5px;
+  }
+
+  .sort > a {
+    color: black;
+    margin-right: 5%;
+    margin-left: 5%;
+    font-size: 10px;
+    padding: 0;
+  }
+
+  h2 {
+    line-height: 50px;
+    font-family: "Share Tech", sans-serif;
+    font-weight: 500;
+    margin-top: 0;
+    font-size: 16px;
+  }
+
+  img {
+    width: 100%;
+    height: 60%;
+    object-fit: cover;
+  }
+
+  .regenerate {
+    padding-top: 10px;
+    width: 80%;
+    color: white;
+    text-align: right;
+    margin-right: 0;
+  }
+
+  .block {
+    background-color: #c1121f;
+    width: 80%;
+    height: 20%;
+    margin: 10px auto auto;
+    display: flex;
+    border-radius: 5px;
+    font-family: Roboto, sans-serif;
+    color: white;
+    padding: 10px;
+    font-size: 60%;
+  }
+}
+
 body {
-  /* background-image: url("https://i0.wp.com/nerdsonearth.com/wp-content/uploads/2019/12/dndmobile-br-1559158957902.jpg?fit=1280%2C720&ssl=1");
-  background-size: cover;
-  background-repeat: none; */
   background-color: #fdf0d5;
 }
 
@@ -71,6 +118,10 @@ button {
   font-family: Roboto, sans-serif;
 }
 
+p {
+  margin: auto;
+}
+
 button:hover {
   cursor: pointer;
 }
@@ -80,6 +131,10 @@ select:hover {
 }
 
 .column-one-third {
+  width: calc(100% / 3);
+}
+
+.column-main {
   width: 100%;
   margin-top: 75px;
 }
@@ -115,43 +170,6 @@ select:hover {
 .description {
   text-align: left;
   width: 100%;
-}
-
-@media screen and (max-width: 400px) {
-  h2 {
-    line-height: 50px;
-    font-family: "Share Tech", sans-serif;
-    font-weight: 500;
-    margin-top: 0;
-    font-size: 16px;
-  }
-
-  img {
-    width: 100%;
-    height: 60%;
-    object-fit: cover;
-  }
-
-  .regenerate {
-    padding-top: 10px;
-    width: 80%;
-    color: white;
-    text-align: right;
-    margin-right: 0;
-  }
-
-  .block {
-    background-color: #c1121f;
-    width: 80%;
-    height: 20%;
-    margin: 10px auto auto;
-    display: flex;
-    border-radius: 5px;
-    font-family: Roboto, sans-serif;
-    color: white;
-    padding: 10px;
-    font-size: 60%;
-  }
 }
 
 .regenerate {
@@ -204,10 +222,6 @@ select:hover {
 .sm-img {
   width: 20%;
   margin-right: 0;
-}
-
-p {
-  margin: auto;
 }
 
 .view-char {
@@ -335,4 +349,9 @@ p {
   color: black;
   margin-right: 5%;
   margin-left: 5%;
+}
+
+.items {
+  margin-right: 10px;
+  margin-left: 10px;
 }
