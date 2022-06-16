@@ -19,26 +19,28 @@
     href="https://fonts.googleapis.com/css2?family=Risque&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&family=Share+Tech&display=swap"
     rel="stylesheet">
 </head>
-
 <body>
   <header>
     <h1>Character Generator</h1>
-    <div class="row header-row">
+    <div class="row">
       <div class="column-full flex">
-        <div class="column-half">
-          <a class="create hidden" href="#">Create</a>
+        <div class="column-one-third">
+          <a class="create" href="#">Create</a>
         </div>
-        <div class="column-half">
+        <div class="column-one-third">
           <a class="saved" href="#">Saved</a>
+        </div>
+        <div class="column-one-third">
+          <a class="equipment" href="#">Equipment</a>
         </div>
       </div>
     </div>
   </header>
   <main>
     <div class="container">
-      <form data-view="feature-form" class="feature-form view active">
+      <form data-view="feature-form" class="feature-form view">
         <div class="row">
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="class">Class<br></label>
             <select name="class" class="role" required>
               <option selected disabled hidden>Select</option>
@@ -57,7 +59,7 @@
               <option>Druid</option>
             </select>
           </div>
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="race">Race<br></label>
             <select name="race" class="race" required>
               <option selected disabled hidden>Select</option>
@@ -73,7 +75,7 @@
               <option>Tiefling</option>
             </select>
           </div>
-          <div class="column-one-third">
+          <div class="column-main">
             <label for="alignment">Alignment<br></label>
             <select name="alignment" class="alignment" required>
               <option selected disabled hidden>Select</option>
@@ -89,9 +91,9 @@
               <option>Neutral-good</option>
             </select>
           </div>
-        </div>
-        <div class="row generate">
-          <button type="submit" class="submit">Generate</button>
+          <div class="column-main">
+            <button type="submit" class="submit">Generate</button>
+          </div>
         </div>
       </form>
     </div>
@@ -102,10 +104,10 @@
           <a class="save" href="#">Save</a>
         </div>
         <div class="row character-sheet">
-          <div class="column-one-half info">
-          </div>
-          <div class="column-one-half img">
+          <div class="column-half column-full img">
             <img src="https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg">
+          </div>
+          <div class="column-half info column-full">
           </div>
         </div>
         <div class="row description">
@@ -113,9 +115,9 @@
       </div>
     </div>
     <div class="container">
-      <div class="hidden-background">
-        <div class="hidden-two">
-          <div class="pop">
+      <div data-view="character-entries" class="character-entries view hidden">
+        <div class="background hidden">
+          <div class="pop hidden">
             <p class="text-modal">Are you sure?</p>
             <div class="modal-row">
               <div class="column-full flex">
@@ -129,13 +131,40 @@
             </div>
           </div>
         </div>
-      </div>
-      <div data-view="character-entries" class="view entries hidden">
+        <div class="sort row">
+          <a href="#" class="class-sort">Sort by Class</a>
+          <a href="#" class="race-sort">Sort by Race</a>
+          <a href="#" class="name-sort">Sort by Name</a>
+        </div>
+        <div class="character-select">
+        </div>
         <div class="row no-chars hidden">
           <p>No characters created</p>
         </div>
-
       </div>
+    </div>
+    <div class="container">
+      <form data-view="item-selection" class="view hidden item-selection">
+        <label for="weapon">Weapons<br></label>
+        <select name="weapon" class="weapon" required>
+          <option selected disabled hidden>Select</option>
+        </select>
+        <label for="armor">Armors<br></label>
+        <select name="armor" class="armor" required>
+          <option selected disabled hidden>Select</option>
+        </select>
+        <label for="potion">Potions<br></label>
+        <select name="potion" class="potion" required>
+          <option selected disabled hidden>Select</option>
+        </select>
+        <div class="row purchase-row">
+          <a href="#" class="purchase">Purchase</a>
+        </div>
+        <div class="row character-confirm">
+        </div>
+        <div class="row purchase-row-confirm">
+        </div>
+      </form>
     </div>
   </main>
   <script src="js/data.js"></script>

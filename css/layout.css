@@ -2,23 +2,28 @@
   display: none !important;
 }
 
-.hidden-two {
-  display: none;
-}
-
 .container {
   max-width: 575px;
   margin: 0 auto;
+  background-color: #fdf0d5;
 }
 
 .container-two {
   margin: 0 20px;
+  background-color: #fdf0d5;
 }
 
 .row {
+  flex-wrap: wrap;
   text-align: center;
   width: 50%;
   margin: auto;
+}
+
+.full-row {
+  width: 100%;
+  margin: auto;
+  text-align: center;
 }
 
 .new-row {
@@ -31,6 +36,11 @@
   margin: auto;
   width: 100%;
   margin-top: 15%;
+}
+
+.column-main {
+  width: 100%;
+  margin-top: 75px;
 }
 
 .column-full,

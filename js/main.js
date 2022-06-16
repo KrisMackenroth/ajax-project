@@ -1,3 +1,28 @@
+// List of retrieved API's.
+var potions = new XMLHttpRequest();
+
+potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
+
+potions.responseType = 'json';
+
+potions.send();
+
+var weapons = new XMLHttpRequest();
+
+weapons.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/weapon');
+
+weapons.responseType = 'json';
+
+weapons.send();
+
+var armors = new XMLHttpRequest();
+
+armors.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/armor');
+
+armors.responseType = 'json';
+
+armors.send();
+
 var alignmentApi = new XMLHttpRequest();
 
 alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
@@ -31,7 +56,6 @@ classes.responseType = 'json';
 classes.send();
 
 var featureForm = document.querySelector('.feature-form');
-var regenerate = document.querySelector('.regen');
 var alignment = document.querySelector('.alignment');
 var role = document.querySelector('.role');
 var race = document.querySelector('.race');
@@ -39,94 +63,88 @@ var info = document.querySelector('.info');
 var description = document.querySelector('.description');
 var image = document.querySelector('img');
 var view = document.querySelectorAll('.view');
-var create = document.querySelector('.create');
 var save = document.querySelector('.save');
 var yesButton = document.querySelector('.yes-button');
-var hiddenTwo = document.querySelector('.hidden-two');
-var coldButton = document.querySelector('.cold-button');
-var hiddenBackground = document.querySelector('.hidden-background');
 var regen = document.querySelector('.regen');
 var noChar = document.querySelector('.no-chars');
 var currentCharacter;
-var savedEntries = document.querySelector('.saved');
+var weapon = document.querySelector('.weapon');
+var armor = document.querySelector('.armor');
+var potion = document.querySelector('.potion');
+var characterConfirm = document.querySelector('.character-confirm');
+var confirmRow = document.querySelector('.purchase-row-confirm');
+var characterSheet = document.querySelector('.character-info');
+var characterSelect = document.querySelector('.character-select');
+var header = document.querySelector('header');
+var characterEntries = document.querySelector('.character-entries');
+var itemSelection = document.querySelector('.item-selection');
+var pop = document.querySelector('.pop');
+var background = document.querySelector('.background');
 
-featureForm.addEventListener('submit', function (e) {
-  e.preventDefault();
-  var newCharacter = {};
-  newCharacter.raceValue = race.value;
-  newCharacter.roleValue = role.value;
-  newCharacter.alignmentValue = alignment.value;
-  if (race.value === 'Random') {
-    var randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-  } else { newCharacter.race = race.value; }
-  if (role.value === 'Random') {
-    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-  } else { newCharacter.class = role.value; }
-  if (alignment.value === 'Random') {
-    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-  } else { newCharacter.alignment = alignment.value; }
-  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-  for (var i = 0; i < classes.response.results.length; i++) {
-    if (newCharacter.class === classes.response.results[i].name) {
-      newCharacter.hitDie = classes.response.results[i].hit_dice;
-      newCharacter.armorProf = classes.response.results[i].prof_armor;
-    }
-  }
-  for (var j = 0; j < races.response.results.length; j++) {
-    if (newCharacter.race === races.response.results[j].name) {
-      newCharacter.size = races.response.results[j].size;
-      newCharacter.languages = races.response.results[j].languages;
-    }
-  }
-  if (newCharacter.class === 'Paladin') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg';
-  } else if (newCharacter.class === 'Druid') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg';
-  } else if (newCharacter.class === 'Barbarian') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg';
-  } else if (newCharacter.class === 'Bard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg';
-  } else if (newCharacter.class === 'Cleric') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg';
-  } else if (newCharacter.class === 'Fighter') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg';
-  } else if (newCharacter.class === 'Monk') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg';
-  } else if (newCharacter.class === 'Ranger') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg';
-  } else if (newCharacter.class === 'Rogue') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg';
-  } else if (newCharacter.class === 'Sorcerer') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg';
-  } else if (newCharacter.class === 'Warlock') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg';
-  } else if (newCharacter.class === 'Wizard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg';
-  }
-  newCharacter.size = newCharacter.size.slice(12);
-  newCharacter.languages = newCharacter.languages.slice(17);
-  currentCharacter = newCharacter;
-  characterEntry(newCharacter);
-  viewSwap('character-sheet');
-  featureForm.reset();
-  return currentCharacter;
-});
+if (data.characters.length === 0) {
+  noChar.classList.remove('hidden');
+}
 
+// This function sets the image of a character based on if the class name matches the index of an image.
+function imageSet(newCharacter) {
+  image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
+  newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
+}
+
+// These three functions sort saved entries alphabetically based on class, race, or name.
+function compareClass(a, b) {
+  if (a.class.toLowerCase() < b.class.toLowerCase()) {
+    return -1;
+  }
+  if (a.class.toLowerCase() > b.class.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareRaces(a, b) {
+  if (a.race.toLowerCase() < b.race.toLowerCase()) {
+    return -1;
+  }
+  if (a.race.toLowerCase() > b.race.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+function compareName(a, b) {
+  if (a.name.toLowerCase() < b.name.toLowerCase()) {
+    return -1;
+  }
+  if (a.name.toLowerCase() > b.name.toLowerCase()) {
+    return 1;
+  }
+  return 0;
+}
+
+// Populates the inventory with weapons, armor, and potions from the pulled API.
+function inventory() {
+  for (var i = 0; i < weapons.response.equipment.length; i++) {
+    var options = document.createElement('option');
+    var textOptions = document.createTextNode(weapons.response.equipment[i].name);
+    options.appendChild(textOptions);
+    weapon.appendChild(options);
+  }
+  for (var j = 0; j < armors.response.equipment.length; j++) {
+    var armorOptions = document.createElement('option');
+    var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
+    armorOptions.appendChild(armorTextOptions);
+    armor.appendChild(armorOptions);
+  }
+  for (var k = 0; k < potions.response.equipment.length; k++) {
+    var potionOptions = document.createElement('option');
+    var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
+    potionOptions.appendChild(potionTextOptions);
+    potion.appendChild(potionOptions);
+  }
+}
+
+// Creates a character sheet when a character is generated or a saved character is viewed.
 function characterEntry(entry) {
   var h2Name = document.createElement('h2');
   var h2Class = document.createElement('h2');
@@ -164,127 +182,7 @@ function characterEntry(entry) {
   names.send();
 }
 
-function viewSwap(event) {
-  for (var i = 0; i < 3; i++) {
-    if (view[i].getAttribute('data-view') === event) {
-      view[i].classList.remove('hidden');
-      view[i].classList.add('active');
-      data.view = view[i].getAttribute('data-view');
-    } else view[i].classList.add('hidden');
-    view[i].classList.remove('active');
-  }
-  featureForm.reset();
-}
-
-create.addEventListener('click', function () {
-  viewSwap('feature-form');
-  if (data.characters.length > 0) {
-    info.innerHTML = '';
-    description.innerHTML = '';
-    entries.innerHTML = '';
-    noChar.classList.add('hidden');
-  }
-  regen.classList.remove('hidden');
-  save.classList.remove('hidden');
-  create.classList.add('hidden');
-  savedEntries.classList.remove('hidden');
-  names.open('GET', 'https://randomuser.me/api/');
-  names.send();
-});
-
-regenerate.addEventListener('click', function (e) {
-  info.innerHTML = '';
-  description.innerHTML = '';
-  var newCharacter = {};
-  if (currentCharacter.raceValue === 'Random') {
-    var randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-    newCharacter.raceValue = 'Random';
-  } else {
-    newCharacter.race = currentCharacter.raceValue;
-    newCharacter.raceValue = currentCharacter.raceValue;
-  }
-  if (currentCharacter.roleValue === 'Random') {
-    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-    newCharacter.roleValue = 'Random';
-  } else {
-    newCharacter.class = currentCharacter.roleValue;
-    newCharacter.roleValue = currentCharacter.roleValue;
-  }
-  if (currentCharacter.alignmentValue === 'Random') {
-    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-    newCharacter.alignmentValue = 'Random';
-  } else {
-    newCharacter.alignment = currentCharacter.alignmentValue;
-    newCharacter.alignmentValue = currentCharacter.alignmentValue;
-  }
-  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-  for (var i = 0; i < classes.response.results.length; i++) {
-    if (newCharacter.class === classes.response.results[i].name) {
-      newCharacter.hitDie = classes.response.results[i].hit_dice;
-      newCharacter.armorProf = classes.response.results[i].prof_armor;
-    }
-  }
-  for (var j = 0; j < races.response.results.length; j++) {
-    if (newCharacter.race === races.response.results[j].name) {
-      newCharacter.size = races.response.results[j].size;
-      newCharacter.languages = races.response.results[j].languages;
-    }
-  }
-  if (newCharacter.class === 'Paladin') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/6/636336417477714942.jpeg';
-  } else if (newCharacter.class === 'Druid') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/3/636336417152216156.jpeg';
-  } else if (newCharacter.class === 'Barbarian') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg';
-  } else if (newCharacter.class === 'Bard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/1/636336416923635770.jpeg';
-  } else if (newCharacter.class === 'Cleric') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/2/636336417054144618.jpeg';
-  } else if (newCharacter.class === 'Fighter') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/4/636336417268495752.jpeg';
-  } else if (newCharacter.class === 'Monk') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/5/636336417372349522.jpeg';
-  } else if (newCharacter.class === 'Ranger') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/7/636336417569697438.jpeg';
-  } else if (newCharacter.class === 'Rogue') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/8/636336417681318097.jpeg';
-  } else if (newCharacter.class === 'Sorcerer') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/9/636336417773983369.jpeg';
-  } else if (newCharacter.class === 'Warlock') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/12/636336422983071263.jpeg';
-  } else if (newCharacter.class === 'Wizard') {
-    image.setAttribute('src', 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg');
-    newCharacter.image = 'https://www.dndbeyond.com/avatars/10/11/636336418370446635.jpeg';
-  }
-  newCharacter.size = newCharacter.size.slice(12);
-  newCharacter.languages = newCharacter.languages.slice(17);
-  currentCharacter = newCharacter;
-  characterEntry(newCharacter);
-  return currentCharacter;
-});
-
-save.addEventListener('click', function () {
-  currentCharacter.id = data.nextEntryId;
-  data.characters.unshift(currentCharacter);
-  viewSwap('feature-form');
-  data.nextEntryId++;
-});
-
-var entries = document.querySelector('.entries');
+// Generates all characters that have been saved to local storage.
 function characterView(character) {
   var firstName = character.name.split(' ');
   var divRow = document.createElement('div');
@@ -295,13 +193,10 @@ function characterView(character) {
   classImage.classList.add('sm-img');
   classImage.setAttribute('src', character.image);
   var pName = document.createElement('p');
-  var pRace = document.createElement('p');
   var pClass = document.createElement('p');
   var nameText = document.createTextNode(firstName[0]);
-  var raceText = document.createTextNode(character.race);
   var classText = document.createTextNode(character.class);
   pName.appendChild(nameText);
-  pRace.appendChild(raceText);
   pClass.appendChild(classText);
   var aRow = document.createElement('div');
   aRow.classList.add('new-row');
@@ -327,80 +222,261 @@ function characterView(character) {
   divRow.appendChild(divBlock);
   divBlock.appendChild(classImage);
   divBlock.appendChild(pName);
-  divBlock.appendChild(pRace);
   divBlock.appendChild(pClass);
   aRow.appendChild(viewFullColumn);
-  entries.appendChild(divRow);
-  entries.appendChild(aRow);
+  characterSelect.appendChild(divRow);
+  characterSelect.appendChild(aRow);
 }
 
-savedEntries.addEventListener('click', function (character) {
-  info.innerHTML = '';
-  description.innerHTML = '';
-  create.classList.remove('hidden');
-  savedEntries.classList.add('hidden');
-  if (data.characters.length === 0) {
-    noChar.classList.remove('hidden');
-  } else if (data.characters.length > 0) {
-    noChar.classList.add('hidden');
+// Swaps to the correct view depenending on the data-view of the event that is clicked.
+function viewSwap(event) {
+  for (var i = 0; i < 4; i++) {
+    if (view[i].getAttribute('data-view') === event) {
+      view[i].classList.remove('hidden');
+      view[i].classList.add('active');
+      data.view = view[i].getAttribute('data-view');
+    } else view[i].classList.add('hidden');
+    view[i].classList.remove('active');
   }
-  viewSwap('character-entries');
+  featureForm.reset();
+}
+// If the page is reloaded, character entries are created, as well as allowing the page to switch
+// to the view that the user was on prior to the reload.
+window.addEventListener('DOMContentLoaded', function (e) {
+  var currentView = data.view;
   for (var i = 0; i < data.characters.length; i++) {
     characterView(data.characters[i]);
   }
+  viewSwap(currentView);
 });
 
-entries.addEventListener('click', function (temp) {
-  var oldNum = temp.target.getAttribute('id');
+// Handles character generation and character storage to local storage.
+featureForm.addEventListener('submit', function (e) {
+  e.preventDefault();
+  var newCharacter = {};
+  newCharacter.raceValue = race.value;
+  newCharacter.roleValue = role.value;
+  newCharacter.alignmentValue = alignment.value;
+  if (race.value === 'Random') {
+    var randomIndex = Math.floor(Math.random() * races.response.results.length);
+    newCharacter.race = races.response.results[randomIndex].name;
+  } else { newCharacter.race = race.value; }
+  if (role.value === 'Random') {
+    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+    newCharacter.class = classes.response.results[classesIndex].name;
+  } else { newCharacter.class = role.value; }
+  if (alignment.value === 'Random') {
+    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+  } else { newCharacter.alignment = alignment.value; }
+  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+  for (var i = 0; i < classes.response.results.length; i++) {
+    if (newCharacter.class === classes.response.results[i].name) {
+      newCharacter.hitDie = classes.response.results[i].hit_dice;
+      newCharacter.armorProf = classes.response.results[i].prof_armor;
+    }
+  }
+  for (var j = 0; j < races.response.results.length; j++) {
+    if (newCharacter.race === races.response.results[j].name) {
+      newCharacter.size = races.response.results[j].size;
+      newCharacter.languages = races.response.results[j].languages;
+    }
+  }
+  imageSet(newCharacter);
+  newCharacter.size = newCharacter.size.slice(12);
+  newCharacter.languages = newCharacter.languages.slice(17);
+  currentCharacter = newCharacter;
+  characterEntry(newCharacter);
+  viewSwap('character-sheet');
+  featureForm.reset();
+  return currentCharacter;
+});
+
+// Handles clicks for the create, saved, and equipment header buttons.
+header.addEventListener('click', function (event) {
+  if (event.target.classList.contains('create')) {
+    viewSwap('feature-form');
+    if (data.characters.length > 0) {
+      info.innerHTML = '';
+      description.innerHTML = '';
+      noChar.classList.add('hidden');
+    }
+    regen.classList.remove('hidden');
+    names.open('GET', 'https://randomuser.me/api/');
+    names.send();
+  } else if (event.target.classList.contains('saved')) {
+    info.innerHTML = '';
+    description.innerHTML = '';
+    if (data.characters.length === 0) {
+      noChar.classList.remove('hidden');
+    } else if (data.characters.length > 0) {
+      noChar.classList.add('hidden');
+    }
+    viewSwap('character-entries');
+  } else if (event.target.classList.contains('equipment')) {
+    inventory();
+    info.innerHTML = '';
+    description.innerHTML = '';
+    itemSelection.reset();
+    viewSwap('item-selection');
+  }
+});
+
+// Handles clicks on the characters entries page.
+characterEntries.addEventListener('click', function (event) {
+  var oldNum = event.target.getAttribute('id');
   var newNum = parseInt(oldNum);
-  for (var i = 0; i < data.characters.length; i++) {
-    if (newNum === data.characters[i].id) {
-      if (temp.target.getAttribute('type') === 'view') {
-        entries.innerHTML = '';
+  if (event.target.classList.contains('class-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareClass);
+    for (var i = 0; i < data.characters.length; i++) {
+      characterView(data.characters[i]);
+    }
+  } else if (event.target.classList.contains('race-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareRaces);
+    for (var k = 0; k < data.characters.length; k++) {
+      characterView(data.characters[k]);
+    }
+  } else if (event.target.classList.contains('name-sort')) {
+    characterSelect.innerHTML = '';
+    data.characters.sort(compareName);
+    for (var l = 0; l < data.characters.length; l++) {
+      characterView(data.characters[l]);
+    }
+  }
+  for (var m = 0; m < data.characters.length; m++) {
+    if (newNum === data.characters[m].id) {
+      if (event.target.getAttribute('type') === 'view') {
         regen.classList.add('hidden');
         save.classList.add('hidden');
-        savedEntries.classList.remove('hidden');
-        characterEntry(data.characters[i]);
-        image.setAttribute('src', data.characters[i].image);
+        characterEntry(data.characters[m]);
+        if (Object.prototype.hasOwnProperty.call(data.characters[m], 'inventory')) {
+          var inventoryh2 = document.createElement('h2');
+          var inventoryText = document.createTextNode('Inventory: ' + data.characters[m].inventory.weapon + ', ' + data.characters[m].inventory.armor + ', ' + data.characters[m].inventory.potion);
+          inventoryh2.appendChild(inventoryText);
+          description.appendChild(inventoryh2);
+        }
+        image.setAttribute('src', data.characters[m].image);
         viewSwap('character-sheet');
-      } else if (temp.target.getAttribute('type') === 'delete') {
-        hiddenTwo.className = 'visible';
-        hiddenBackground.className = 'background';
+      } else if (event.target.getAttribute('type') === 'delete') {
+        pop.classList.remove('hidden');
+        background.classList.remove('hidden');
         yesButton.setAttribute('id', newNum);
+      }
+    }
+  }
+  if (event.target.classList.contains('cold-button')) {
+    pop.classList.add('hidden');
+    background.classList.add('hidden');
+  } else if (event.target.classList.contains('yes-button')) {
+    var temp = yesButton.getAttribute('id');
+    var idCheck = parseInt(temp);
+    for (var n = 0; n < data.characters.length; n++) {
+      if (idCheck === data.characters[n].id) {
+        data.characters.splice(n, 1);
+        location.reload();
+        viewSwap('character-entries');
       }
     }
   }
 });
 
-coldButton.addEventListener('click', function (event) {
-  hiddenTwo.className = 'hidden';
-  hiddenBackground.className = 'hidden-background';
-});
-
-yesButton.addEventListener('click', function (event) {
-  var temp = yesButton.getAttribute('id');
-  var idCheck = parseInt(temp);
-  for (var i = 0; i < data.characters.length; i++) {
-    if (idCheck === data.characters[i].id) {
-      data.characters.splice(i, 1);
-      location.reload();
-      viewSwap('character-entries');
+// Handles clicks on the item selection page.
+itemSelection.addEventListener('click', function (event) {
+  if (event.target.classList.contains('purchase')) {
+    if (data.characters.length > 0) {
+      var label = document.createElement('label');
+      label.textContent = 'Select which Character';
+      var select = document.createElement('select');
+      select.setAttribute('name', 'character');
+      select.classList.add('itemCharacter');
+      var confirm = document.createElement('a');
+      confirm.setAttribute('href', '#');
+      confirm.classList.add('confirm-character');
+      confirm.textContent = 'Confirm';
+      for (var i = 0; i < data.characters.length; i++) {
+        var options = document.createElement('option');
+        var textOptions = document.createTextNode(data.characters[i].name);
+        options.appendChild(textOptions);
+        select.appendChild(options);
+      }
+      label.appendChild(select);
+      characterConfirm.appendChild(label);
+      confirmRow.appendChild(confirm);
     }
+  }
+  var temp = document.querySelector('.itemCharacter');
+  if (event.target.classList.contains('confirm-character')) {
+    var inventory = {};
+    inventory.weapon = weapon.value;
+    inventory.armor = armor.value;
+    inventory.potion = potion.value;
+    for (var j = 0; j < data.characters.length; j++) {
+      if (temp.value === data.characters[j].name) {
+        data.characters[j].inventory = inventory;
+      }
+    }
+    itemSelection.reset();
+    confirmRow.innerHTML = '';
+    characterConfirm.innerHTML = '';
   }
 });
 
-window.addEventListener('DOMContentLoaded', function (e) {
-  var currentView = data.view;
-  if (currentView === 'character-entries') {
-    create.classList.remove('hidden');
-    savedEntries.classList.add('hidden');
-    for (var i = 0; i < data.characters.length; i++) {
-      characterView(data.characters[i]);
+// Handles clicks on the character sheet page.
+characterSheet.addEventListener('click', function (event) {
+  if (event.target.classList.contains('regen')) {
+    info.innerHTML = '';
+    description.innerHTML = '';
+    var newCharacter = {};
+    if (currentCharacter.raceValue === 'Random') {
+      var randomIndex = Math.floor(Math.random() * races.response.results.length);
+      newCharacter.race = races.response.results[randomIndex].name;
+      newCharacter.raceValue = 'Random';
+    } else {
+      newCharacter.race = currentCharacter.raceValue;
+      newCharacter.raceValue = currentCharacter.raceValue;
     }
+    if (currentCharacter.roleValue === 'Random') {
+      var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+      newCharacter.class = classes.response.results[classesIndex].name;
+      newCharacter.roleValue = 'Random';
+    } else {
+      newCharacter.class = currentCharacter.roleValue;
+      newCharacter.roleValue = currentCharacter.roleValue;
+    }
+    if (currentCharacter.alignmentValue === 'Random') {
+      var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+      newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
+      newCharacter.alignmentValue = 'Random';
+    } else {
+      newCharacter.alignment = currentCharacter.alignmentValue;
+      newCharacter.alignmentValue = currentCharacter.alignmentValue;
+    }
+    newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    for (var i = 0; i < classes.response.results.length; i++) {
+      if (newCharacter.class === classes.response.results[i].name) {
+        newCharacter.hitDie = classes.response.results[i].hit_dice;
+        newCharacter.armorProf = classes.response.results[i].prof_armor;
+      }
+    }
+    for (var j = 0; j < races.response.results.length; j++) {
+      if (newCharacter.race === races.response.results[j].name) {
+        newCharacter.size = races.response.results[j].size;
+        newCharacter.languages = races.response.results[j].languages;
+      }
+    }
+    imageSet(newCharacter);
+    newCharacter.size = newCharacter.size.slice(12);
+    newCharacter.languages = newCharacter.languages.slice(17);
+    currentCharacter = newCharacter;
+    characterEntry(newCharacter);
+    return currentCharacter;
+  } else if (event.target.classList.contains('save')) {
+    currentCharacter.id = data.nextEntryId;
+    data.characters.unshift(currentCharacter);
+    viewSwap('feature-form');
+    data.nextEntryId++;
+    location.reload();
   }
-  viewSwap(currentView);
 });
-
-if (data.characters.length === 0) {
-  noChar.classList.remove('hidden');
-}
