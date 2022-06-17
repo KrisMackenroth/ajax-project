@@ -55,13 +55,19 @@ classes.responseType = 'json';
 
 classes.send();
 
+var strength = document.querySelector('.strength');
+var dexterity = document.querySelector('.dexterity');
+var wisdom = document.querySelector('.wisdom');
+var constitution = document.querySelector('.constitution');
+var intelligence = document.querySelector('.intelligence');
+var charisma = document.querySelector('.charisma');
 var featureForm = document.querySelector('.feature-form');
 var alignment = document.querySelector('.alignment');
 var role = document.querySelector('.role');
 var race = document.querySelector('.race');
 var info = document.querySelector('.info');
 var description = document.querySelector('.description');
-var image = document.querySelector('img');
+var image = document.querySelector('.class-image');
 var view = document.querySelectorAll('.view');
 var save = document.querySelector('.save');
 var yesButton = document.querySelector('.yes-button');
@@ -80,6 +86,7 @@ var characterEntries = document.querySelector('.character-entries');
 var itemSelection = document.querySelector('.item-selection');
 var pop = document.querySelector('.pop');
 var background = document.querySelector('.background');
+var sideImages = document.querySelector('.side-images');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
@@ -124,24 +131,30 @@ function compareName(a, b) {
 
 // Populates the inventory with weapons, armor, and potions from the pulled API.
 function inventory() {
-  for (var i = 0; i < weapons.response.equipment.length; i++) {
-    var options = document.createElement('option');
-    var textOptions = document.createTextNode(weapons.response.equipment[i].name);
-    options.appendChild(textOptions);
-    weapon.appendChild(options);
-  }
-  for (var j = 0; j < armors.response.equipment.length; j++) {
-    var armorOptions = document.createElement('option');
-    var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
-    armorOptions.appendChild(armorTextOptions);
-    armor.appendChild(armorOptions);
-  }
-  for (var k = 0; k < potions.response.equipment.length; k++) {
-    var potionOptions = document.createElement('option');
-    var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
-    potionOptions.appendChild(potionTextOptions);
-    potion.appendChild(potionOptions);
-  }
+  weapons.addEventListener('load', function () {
+    for (var i = 0; i < weapons.response.equipment.length; i++) {
+      var options = document.createElement('option');
+      var textOptions = document.createTextNode(weapons.response.equipment[i].name);
+      options.appendChild(textOptions);
+      weapon.appendChild(options);
+    }
+  });
+  armors.addEventListener('load', function () {
+    for (var j = 0; j < armors.response.equipment.length; j++) {
+      var armorOptions = document.createElement('option');
+      var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
+      armorOptions.appendChild(armorTextOptions);
+      armor.appendChild(armorOptions);
+    }
+  });
+  potions.addEventListener('load', function () {
+    for (var k = 0; k < potions.response.equipment.length; k++) {
+      var potionOptions = document.createElement('option');
+      var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
+      potionOptions.appendChild(potionTextOptions);
+      potion.appendChild(potionOptions);
+    }
+  });
 }
 
 // Creates a character sheet when a character is generated or a saved character is viewed.
@@ -154,6 +167,7 @@ function characterEntry(entry) {
   var h2Size = document.createElement('h2');
   var h2Languages = document.createElement('h2');
   var h2Armor = document.createElement('h2');
+  var h2Stats = document.createElement('h2');
   var armorText = document.createTextNode('Armor Proficiency: ' + entry.armorProf);
   var sizeText = document.createTextNode('Size: ' + entry.size);
   var languagesText = document.createTextNode('Languages: ' + entry.languages);
@@ -162,6 +176,8 @@ function characterEntry(entry) {
   var classText = document.createTextNode('Class: ' + entry.class);
   var alignmentText = document.createTextNode('Alignment: ' + entry.alignment);
   var raceText = document.createTextNode('Race: ' + entry.race);
+  var statsText = document.createTextNode('Str: ' + entry.strength + ' ' + 'Dex: ' + entry.dexterity + ' ' + 'Con: ' + entry.constitution + ' ' + 'Int: ' + entry.intelligence + ' ' + 'Wis: ' + entry.wisdom + ' ' + 'Cha: ' + entry.charisma);
+  h2Stats.appendChild(statsText);
   h2Armor.appendChild(armorText);
   h2Size.appendChild(sizeText);
   h2Languages.appendChild(languagesText);
@@ -176,6 +192,7 @@ function characterEntry(entry) {
   info.appendChild(h2Alignment);
   info.appendChild(h2HitDie);
   info.appendChild(h2Armor);
+  description.appendChild(h2Stats);
   description.appendChild(h2Size);
   description.appendChild(h2Languages);
   names.open('GET', 'https://randomuser.me/api/');
@@ -237,18 +254,42 @@ function viewSwap(event) {
       data.view = view[i].getAttribute('data-view');
     } else view[i].classList.add('hidden');
     view[i].classList.remove('active');
+    if (data.view === 'character-sheet') {
+      sideImages.classList.add('hidden');
+    } else { sideImages.classList.remove('hidden'); }
   }
   featureForm.reset();
 }
 // If the page is reloaded, character entries are created, as well as allowing the page to switch
 // to the view that the user was on prior to the reload.
 window.addEventListener('DOMContentLoaded', function (e) {
+  inventory();
   var currentView = data.view;
+  if (currentView === 'feature-form') {
+    data.viewing = null;
+  }
+  if (currentView === 'character-sheet') {
+    sideImages.classList.add('hidden');
+  } else { sideImages.classList.remove('hidden'); }
   for (var i = 0; i < data.characters.length; i++) {
     characterView(data.characters[i]);
   }
+  for (var n = 0; n < data.characters.length; n++) {
+    if (data.viewing === data.characters[n].id) {
+      characterEntry(data.characters[n]);
+      image.setAttribute('src', data.characters[n].image);
+    }
+  }
   viewSwap(currentView);
 });
+
+function randomStat(stat) {
+  if (stat.value === 'Random') {
+    var randomNum = Math.floor(Math.random() * 20);
+    stat.value = randomNum;
+    return stat;
+  } else return stat;
+}
 
 // Handles character generation and character storage to local storage.
 featureForm.addEventListener('submit', function (e) {
@@ -257,6 +298,19 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.raceValue = race.value;
   newCharacter.roleValue = role.value;
   newCharacter.alignmentValue = alignment.value;
+  randomStat(strength);
+  randomStat(dexterity);
+  randomStat(constitution);
+  randomStat(wisdom);
+  randomStat(intelligence);
+  randomStat(charisma);
+  newCharacter.strength = strength.value;
+  newCharacter.dexterity = dexterity.value;
+  newCharacter.constitution = constitution.value;
+  newCharacter.wisdom = wisdom.value;
+  newCharacter.intelligence = intelligence.value;
+  newCharacter.charisma = charisma.value;
+  randomStat(strength);
   if (race.value === 'Random') {
     var randomIndex = Math.floor(Math.random() * races.response.results.length);
     newCharacter.race = races.response.results[randomIndex].name;
@@ -269,7 +323,15 @@ featureForm.addEventListener('submit', function (e) {
     var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
     newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
   } else { newCharacter.alignment = alignment.value; }
-  newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+
+  if (featureForm.name.value === '') {
+    newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    newCharacter.nameValue = 'Random';
+  } else {
+    newCharacter.name = featureForm.name.value;
+    newCharacter.nameValue = 'Input';
+  }
+
   for (var i = 0; i < classes.response.results.length; i++) {
     if (newCharacter.class === classes.response.results[i].name) {
       newCharacter.hitDie = classes.response.results[i].hit_dice;
@@ -287,6 +349,7 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.languages = newCharacter.languages.slice(17);
   currentCharacter = newCharacter;
   characterEntry(newCharacter);
+  save.classList.remove('hidden');
   viewSwap('character-sheet');
   featureForm.reset();
   return currentCharacter;
@@ -314,7 +377,6 @@ header.addEventListener('click', function (event) {
     }
     viewSwap('character-entries');
   } else if (event.target.classList.contains('equipment')) {
-    inventory();
     info.innerHTML = '';
     description.innerHTML = '';
     itemSelection.reset();
@@ -350,6 +412,7 @@ characterEntries.addEventListener('click', function (event) {
       if (event.target.getAttribute('type') === 'view') {
         regen.classList.add('hidden');
         save.classList.add('hidden');
+        data.viewing = data.characters[m].id;
         characterEntry(data.characters[m]);
         if (Object.prototype.hasOwnProperty.call(data.characters[m], 'inventory')) {
           var inventoryh2 = document.createElement('h2');
@@ -429,6 +492,12 @@ characterSheet.addEventListener('click', function (event) {
     info.innerHTML = '';
     description.innerHTML = '';
     var newCharacter = {};
+    newCharacter.strength = currentCharacter.strength;
+    newCharacter.dexterity = currentCharacter.dexterity;
+    newCharacter.charisma = currentCharacter.charisma;
+    newCharacter.wisdom = currentCharacter.wisdom;
+    newCharacter.intelligence = currentCharacter.intelligence;
+    newCharacter.constitution = currentCharacter.constitution;
     if (currentCharacter.raceValue === 'Random') {
       var randomIndex = Math.floor(Math.random() * races.response.results.length);
       newCharacter.race = races.response.results[randomIndex].name;
@@ -453,7 +522,12 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.alignment = currentCharacter.alignmentValue;
       newCharacter.alignmentValue = currentCharacter.alignmentValue;
     }
-    newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    if (currentCharacter.nameValue === 'Random') {
+      newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    } else {
+      newCharacter.name = currentCharacter.name;
+      newCharacter.nameValue = currentCharacter.nameValue;
+    }
     for (var i = 0; i < classes.response.results.length; i++) {
       if (newCharacter.class === classes.response.results[i].name) {
         newCharacter.hitDie = classes.response.results[i].hit_dice;

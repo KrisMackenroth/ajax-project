@@ -2,7 +2,7 @@
 var data = {
   view: 'feature-form',
   characters: [],
-  editing: null,
+  viewing: null,
   nextEntryId: 1
 };
 
