@@ -41,6 +41,7 @@
 .column-main {
   width: 100%;
   margin-top: 75px;
+  margin-bottom: 20px;
 }
 
 .column-full,
@@ -53,12 +54,15 @@
     max-width: 900px;
   }
 
-  .column-full,
-  .column-half {
-    padding: 0 0.75rem;
-  }
-
   .column-half {
     width: 50%;
   }
+}
+
+.column-main > p {
+  color: #003049;
+  font-family: Roboto, sans-serif;
+  display: block;
+  line-height: 200%;
+  text-align: center;
 }
