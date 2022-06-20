@@ -337,3 +337,13 @@ a:hover {
 .view-char:hover {
   color: #c1121f;
 }
+
+.potion,
+.armor,
+.weapon {
+  width: 80%;
+}
+
+.inv-label {
+  text-align: center;
+}
