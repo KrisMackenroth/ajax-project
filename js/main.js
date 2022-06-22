@@ -298,6 +298,13 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.raceValue = race.value;
   newCharacter.roleValue = role.value;
   newCharacter.alignmentValue = alignment.value;
+  var statInitial = {};
+  statInitial.strength = strength.value;
+  statInitial.dexterity = dexterity.value;
+  statInitial.constitution = constitution.value;
+  statInitial.wisdom = wisdom.value;
+  statInitial.intelligence = intelligence.value;
+  statInitial.charisma = charisma.value;
   randomStat(strength);
   randomStat(dexterity);
   randomStat(constitution);
@@ -310,7 +317,7 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.wisdom = wisdom.value;
   newCharacter.intelligence = intelligence.value;
   newCharacter.charisma = charisma.value;
-  randomStat(strength);
+  newCharacter.statInitial = statInitial;
   if (race.value === 'Random') {
     var randomIndex = Math.floor(Math.random() * races.response.results.length);
     newCharacter.race = races.response.results[randomIndex].name;
@@ -492,12 +499,55 @@ characterSheet.addEventListener('click', function (event) {
     info.innerHTML = '';
     description.innerHTML = '';
     var newCharacter = {};
-    newCharacter.strength = currentCharacter.strength;
-    newCharacter.dexterity = currentCharacter.dexterity;
-    newCharacter.charisma = currentCharacter.charisma;
-    newCharacter.wisdom = currentCharacter.wisdom;
-    newCharacter.intelligence = currentCharacter.intelligence;
-    newCharacter.constitution = currentCharacter.constitution;
+    newCharacter.statInitial = currentCharacter.statInitial;
+    if (currentCharacter.statInitial.strength === 'Random') {
+      var randomNum = Math.floor(Math.random() * 20);
+      newCharacter.strength = randomNum;
+      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
+    } else {
+      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
+      newCharacter.strength = currentCharacter.strength;
+    }
+    if (currentCharacter.statInitial.dexterity === 'Random') {
+      var randomNumTwo = Math.floor(Math.random() * 20);
+      newCharacter.dexterity = randomNumTwo;
+      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
+    } else {
+      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
+      newCharacter.dexterity = currentCharacter.dexterity;
+    }
+    if (currentCharacter.statInitial.charisma === 'Random') {
+      var randomNumThree = Math.floor(Math.random() * 20);
+      newCharacter.charisma = randomNumThree;
+      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
+    } else {
+      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
+      newCharacter.charisma = currentCharacter.charisma;
+    }
+    if (currentCharacter.statInitial.wisdom === 'Random') {
+      var randomNumFour = Math.floor(Math.random() * 20);
+      newCharacter.wisdom = randomNumFour;
+      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
+    } else {
+      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
+      newCharacter.wisdom = currentCharacter.wisdom;
+    }
+    if (currentCharacter.statInitial.intelligence === 'Random') {
+      var randomNumFive = Math.floor(Math.random() * 20);
+      newCharacter.intelligence = randomNumFive;
+      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
+    } else {
+      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
+      newCharacter.intelligence = currentCharacter.intelligence;
+    }
+    if (currentCharacter.statInitial.constitution === 'Random') {
+      var randomNumSix = Math.floor(Math.random() * 20);
+      newCharacter.constitution = randomNumSix;
+      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
+    } else {
+      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
+      newCharacter.constitution = currentCharacter.constitution;
+    }
     if (currentCharacter.raceValue === 'Random') {
       var randomIndex = Math.floor(Math.random() * races.response.results.length);
       newCharacter.race = races.response.results[randomIndex].name;
