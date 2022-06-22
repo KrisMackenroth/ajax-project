@@ -211,6 +211,7 @@ function characterView(character) {
   classImage.setAttribute('src', character.image);
   var pName = document.createElement('p');
   var pClass = document.createElement('p');
+  pClass.classList.add('class-name-entry');
   var nameText = document.createTextNode(firstName[0]);
   var classText = document.createTextNode(character.class);
   pName.appendChild(nameText);
@@ -574,6 +575,7 @@ characterSheet.addEventListener('click', function (event) {
     }
     if (currentCharacter.nameValue === 'Random') {
       newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+      newCharacter.nameValue = 'Random';
     } else {
       newCharacter.name = currentCharacter.name;
       newCharacter.nameValue = currentCharacter.nameValue;
