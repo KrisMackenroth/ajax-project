@@ -131,6 +131,18 @@ function compareName(a, b) {
 
 // Populates the inventory with weapons, armor, and potions from the pulled API.
 function inventory() {
+  var optionNone = document.createElement('option');
+  var noneText = document.createTextNode('None');
+  optionNone.appendChild(noneText);
+  weapon.appendChild(optionNone);
+  var noneArmor = document.createElement('option');
+  var noneArmorText = document.createTextNode('None');
+  noneArmor.appendChild(noneArmorText);
+  armor.appendChild(noneArmor);
+  var nonePotion = document.createElement('option');
+  var nonePotionText = document.createTextNode('None');
+  nonePotion.appendChild(nonePotionText);
+  potion.appendChild(nonePotion);
   weapons.addEventListener('load', function () {
     for (var i = 0; i < weapons.response.equipment.length; i++) {
       var options = document.createElement('option');
@@ -222,6 +234,12 @@ function characterView(character) {
   viewFullColumn.classList.add('column-full');
   viewFullColumn.classList.add('flex');
   var aView = document.createElement('a');
+  var viewDiv = document.createElement('div');
+  viewDiv.classList.add('column-half');
+  viewDiv.classList.add('center');
+  var deleteDiv = document.createElement('div');
+  deleteDiv.classList.add('column-half');
+  deleteDiv.classList.add('center');
   var aDelete = document.createElement('a');
   aDelete.classList.add('view-char');
   aDelete.classList.add('column-half');
@@ -235,8 +253,10 @@ function characterView(character) {
   aView.setAttribute('type', 'view');
   aView.textContent = 'View';
   aView.setAttribute('id', character.id);
-  viewFullColumn.appendChild(aView);
-  viewFullColumn.appendChild(aDelete);
+  viewDiv.appendChild(aView);
+  deleteDiv.appendChild(aDelete);
+  viewFullColumn.appendChild(viewDiv);
+  viewFullColumn.appendChild(deleteDiv);
   divRow.appendChild(divBlock);
   divBlock.appendChild(classImage);
   divBlock.appendChild(pName);
@@ -266,7 +286,7 @@ function viewSwap(event) {
 window.addEventListener('DOMContentLoaded', function (e) {
   inventory();
   var currentView = data.view;
-  if (currentView === 'feature-form') {
+  if (currentView === 'feature-form' || currentView === 'character-entries') {
     data.viewing = null;
   }
   if (currentView === 'character-sheet') {
@@ -457,6 +477,7 @@ characterEntries.addEventListener('click', function (event) {
 itemSelection.addEventListener('click', function (event) {
   if (event.target.classList.contains('purchase')) {
     if (data.characters.length > 0) {
+
       var label = document.createElement('label');
       label.textContent = 'Select which Character';
       var select = document.createElement('select');
@@ -477,12 +498,19 @@ itemSelection.addEventListener('click', function (event) {
       confirmRow.appendChild(confirm);
     }
   }
+
   var temp = document.querySelector('.itemCharacter');
   if (event.target.classList.contains('confirm-character')) {
     var inventory = {};
-    inventory.weapon = weapon.value;
-    inventory.armor = armor.value;
-    inventory.potion = potion.value;
+    if (weapon.value !== 'None') {
+      inventory.weapon = weapon.value;
+    } else { inventory.weapon = 'No Weapon equipped'; }
+    if (armor.value !== 'None') {
+      inventory.armor = armor.value;
+    } else { inventory.armor = 'No Armor equipped'; }
+    if (potion.value !== 'None') {
+      inventory.potion = potion.value;
+    } else { inventory.potion = 'No Potion acquired'; }
     for (var j = 0; j < data.characters.length; j++) {
       if (temp.value === data.characters[j].name) {
         data.characters[j].inventory = inventory;
