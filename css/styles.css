@@ -121,7 +121,6 @@ p {
 
 .block {
   background-color: #c1121f;
-  width: 80%;
   height: 20%;
   margin: 10px auto auto;
   display: flex;
@@ -257,10 +256,15 @@ p {
 
 .block > p {
   font-size: 70%;
+  margin-left: 10%;
 }
 
 .dnd-image {
   width: 0;
+}
+
+.block > p:last-child {
+  visibility: hidden;
 }
 
 @media screen and (min-width: 768px) {
@@ -270,6 +274,10 @@ p {
 
   .block > p {
     font-size: 100%;
+  }
+
+  .block > p:last-child {
+    visibility: visible;
   }
 
   .dnd-image {
@@ -345,5 +353,9 @@ a:hover {
 }
 
 .inv-label {
+  text-align: center;
+}
+
+.center {
   text-align: center;
 }
