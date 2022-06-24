@@ -270,6 +270,8 @@ function viewSwap(event) {
     } else view[i].classList.add('hidden');
     view[i].classList.remove('active');
     if (data.view === 'character-sheet') {
+      url.classList.add('hidden');
+      urlInput.classList.add('hidden');
       sideImages.classList.add('hidden');
     } else { sideImages.classList.remove('hidden'); }
   }
@@ -373,6 +375,8 @@ featureForm.addEventListener('submit', function (e) {
   characterEntry(newCharacter);
   save.classList.remove('hidden');
   viewSwap('character-sheet');
+  url.classList.remove('hidden');
+  urlInput.classList.remove('hidden');
   featureForm.reset();
   return currentCharacter;
 });
@@ -630,6 +634,7 @@ characterSheet.addEventListener('click', function (event) {
   }
 });
 
+var url = document.querySelector('.url');
 var urlInput = document.querySelector('.user-url');
 
 urlInput.addEventListener('input', function (event) {
