@@ -92,12 +92,6 @@ if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
 }
 
-// This function sets the image of a character based on if the class name matches the index of an image.
-function imageSet(newCharacter) {
-  image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
-  newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
-}
-
 // These three functions sort saved entries alphabetically based on class, race, or name.
 function compareClass(a, b) {
   if (a.class.toLowerCase() < b.class.toLowerCase()) {
@@ -627,6 +621,7 @@ characterSheet.addEventListener('click', function (event) {
     characterEntry(newCharacter);
     return currentCharacter;
   } else if (event.target.classList.contains('save')) {
+    imageSet(currentCharacter);
     currentCharacter.id = data.nextEntryId;
     data.characters.unshift(currentCharacter);
     viewSwap('feature-form');
@@ -634,3 +629,21 @@ characterSheet.addEventListener('click', function (event) {
     location.reload();
   }
 });
+
+var urlInput = document.querySelector('.user-url');
+
+urlInput.addEventListener('input', function (event) {
+  var test = event.target.value;
+  image.setAttribute('src', test);
+});
+
+// This function sets the image of a character based on if the class name matches the index of an image.
+function imageSet(newCharacter) {
+  if (urlInput.value === '') {
+    image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
+    newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
+  } else {
+    image.setAttribute('src', urlInput.value);
+    newCharacter.image = urlInput.value;
+  }
+}
