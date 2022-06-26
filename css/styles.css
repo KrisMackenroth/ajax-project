@@ -1,361 +1,58 @@
-body {
-  background-color: #fdf0d5;
-}
-
 header {
-  background-color: #c1121f;
-  height: 60px;
-  text-align: center;
-}
-
-a {
-  width: 25%;
-  margin: 0 auto;
+  background: rgb(164, 34, 34);
   color: white;
-  font-family: Risque, cursive;
-  font-weight: 100;
   text-align: center;
-  text-decoration: none;
+  padding: 10px 0;
 }
 
-h1 {
+body {
+  background: rgb(31, 28, 28);
+}
+
+.view {
   width: 100%;
-  margin: 0 auto;
-  color: white;
-  font-family: Risque, cursive;
-  font-weight: 100;
-  text-align: center;
-}
-
-select {
-  width: 100%;
-  border: solid 2px;
-  border-color: #ced4da;
-  border-radius: 3px;
-  height: 30px;
-  font-family: Roboto, sans-serif;
-}
-
-label {
-  color: #003049;
-  font-family: Roboto, sans-serif;
-  display: block;
-  line-height: 200%;
-  text-align: left;
-}
-
-button {
-  border: none;
-  background-color: #c1121f;
-  color: white;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 15px;
-  padding: 0 15px;
-  font-family: Roboto, sans-serif;
-}
-
-p {
-  margin: auto;
-}
-
-.column-one-third {
-  width: calc(100% / 3);
-}
-
-.column-quarter {
-  width: 25%;
-}
-
-.character-sheet {
-  margin: 20px 0 0;
-  width: 100%;
-  display: flex;
-  height: 50%;
-}
-
-.img > img {
-  width: 80%;
-  object-fit: cover;
-  text-align: center;
-}
-
-.description {
-  width: 100%;
-}
-
-.regenerate {
-  padding-top: 10px;
-  width: 80%;
-  color: white;
-  text-align: right;
-}
-
-.regen {
-  border: none;
-  background-color: #c1121f;
-  color: white;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 15px;
-  padding: 0 15px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
-.save {
-  border: none;
-  background-color: #c1121f;
-  color: white;
-  height: 30px;
-  border-radius: 3px;
-  font-size: 15px;
-  padding: 0 15px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
-
-.block {
-  background-color: #c1121f;
-  height: 20%;
-  margin: 10px auto auto;
-  display: flex;
-  border-radius: 5px;
-  font-family: Roboto, sans-serif;
-  color: white;
-  padding: 10px;
-}
-
-.sm-img {
-  width: 20%;
-  margin-right: 0;
-}
-
-.view-char {
-  color: black;
-}
-
-.flex {
-  display: flex;
-}
-
-.text-modal {
-  font-size: 15px;
-  font-weight: 700;
-  font-family: Roboto, sans-serif;
-  margin-top: 5%;
-}
-
-.pop {
-  position: absolute;
-  width: 300px;
-  margin: auto;
-  height: 150px;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #fdf0d5;
-  border-radius: 5px;
-  text-align: center;
-}
-
-.cold-button {
-  background-color: #b6b6b6;
-  color: white;
-  border-radius: 5px;
-  border: none;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
-  margin: auto;
-  padding: 5% 15%;
-  margin-top: 50px;
-  box-shadow: 0 0 5px black;
-  font-family: Roboto, sans-serif;
-  height: 20%;
-  font-weight: 500;
-}
-
-.yes-button {
-  background-color: #c1121f;
-  border-radius: 5px;
-  border: none;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
-  margin: auto;
-  padding: 5% 15%;
-  margin-top: 15px;
-  box-shadow: 0 0 5px black;
-  font-family: Roboto, sans-serif;
-  height: 20%;
-  font-weight: 500;
-}
-
-.background {
-  position: fixed;
-  max-width: 100%;
   height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgb(0 0 0 / 50%);
-  z-index: 2;
 }
 
-.no-chars {
-  margin-top: 20%;
-  font-size: 120%;
-  color: #003049;
-}
-
-.confirm-character {
-  border: none;
-  background-color: #c1121f;
-  color: white;
-  border-radius: 3px;
-  font-size: 15px;
-  padding: 0 15px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-}
-
-.purchase {
-  border: none;
-  background-color: #c1121f;
-  color: white;
-  border-radius: 3px;
-  font-size: 15px;
-  padding: 0 15px;
-  font-family: Roboto, sans-serif;
-  font-weight: 400;
-}
-
-.purchase-row,
-.purchase-row-confirm {
-  margin-top: 5%;
-  margin-bottom: 5%;
-}
-
-.sort > a {
-  color: black;
-  margin: 0 2%;
-  font-size: 100%;
-}
-
-.items {
-  margin-right: 10px;
-  margin-left: 10px;
-}
-
-.block > p {
-  font-size: 70%;
-  margin-left: 10%;
-}
-
-.dnd-image {
-  width: 0;
-}
-
-.block > p:last-child {
-  visibility: hidden;
-}
-
-@media screen and (min-width: 768px) {
-  .img > img {
-    width: 50%;
-  }
-
-  .block > p {
-    font-size: 100%;
-  }
-
-  .block > p:last-child {
-    visibility: visible;
-  }
-
-  .dnd-image {
-    width: 100%;
-    height: 100%;
-  }
-
-  .box-shadow {
-    box-shadow:
-      0 2px 1px rgba(0, 0, 0, 0.09),
-      0 4px 2px rgba(0, 0, 0, 0.09),
-      0 8px 4px rgba(0, 0, 0, 0.09),
-      0 16px 8px rgba(0, 0, 0, 0.09),
-      0 32px 16px rgba(0, 0, 0, 0.09);
-  }
-}
-
-h2 {
-  font-size: 120%;
-  line-height: 50px;
-  font-family: "Share Tech", sans-serif;
-  font-weight: 500;
-  margin-top: 0;
-}
-
-.sort {
-  width: 100%;
-}
-
-.name {
-  width: 100%;
-  border: solid 2px;
-  border-color: #ced4da;
-  border-radius: 3px;
-  height: 30px;
-  font-family: Roboto, sans-serif;
-}
-
-.purchase:hover {
-  cursor: pointer;
-  color: black;
-  background-color: #fc0011;
-}
-
-button:hover {
-  cursor: pointer;
-  color: black;
-  background-color: #fc0011;
-}
-
-select:hover {
-  cursor: pointer;
-}
-
-a:hover {
-  color: black;
-}
-
-.class-sort:hover,
-.name-sort:hover,
-.race-sort:hover {
-  color: #c1121f;
-}
-
-.view-char:hover {
-  color: #c1121f;
-}
-
-.potion,
-.armor,
-.weapon {
-  width: 80%;
-}
-
-.inv-label {
+.nav {
+  display: flex;
+  justify-content: space-around;
   text-align: center;
 }
 
-.center {
+.feature-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100px 0;
+  width: 50%;
+  margin: auto;
+}
+
+.feature-input {
+  color: white;
+  margin: 20px 0;
+  width: 100%;
   text-align: center;
+}
+
+.feature-input>label,
+.feature-input>input,
+.feature-input>select {
+  width: 100%;
+}
+
+.stat-sheet {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.stat {
+  width: calc(100%/ 3.3);
+}
+
+.stat>label,
+.stat>select {
+  width: 100%;
 }

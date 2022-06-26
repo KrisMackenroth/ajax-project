@@ -11,10 +11,6 @@
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
     href="https://fonts.googleapis.com/css2?family=Risque&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;1,100;1,300;1,400&family=Share+Tech&display=swap"
     rel="stylesheet">
@@ -23,317 +19,310 @@
 <body>
   <header>
     <h1>Character Generator</h1>
-    <div class="row">
-      <div class="column-full flex">
-        <div class="column-one-third">
-          <a class="create" href="#">Create</a>
-        </div>
-        <div class="column-one-third">
-          <a class="saved" href="#">Saved</a>
-        </div>
-        <div class="column-one-third">
-          <a class="equipment" href="#">Equipment</a>
-        </div>
+    <div class="nav">
+      <div class="nav-link">
+        <a class="create" href="#">Create</a>
+      </div>
+      <div class="nav-link">
+        <a class="saved" href="#">Saved</a>
+      </div>
+      <div class="nav-link">
+        <a class="equipment" href="#">Equipment</a>
       </div>
     </div>
   </header>
   <main>
-    <div class="full-row side-images">
-      <div class="column-full flex">
-        <div class="column-quarter">
-          <img class="dnd-image" src="images/dragon.jpg">
-        </div>
-
-
-        <div class="column-half box-shadow">
-
-
-          <div class="container">
-            <form data-view="feature-form" class="feature-form view">
-              <div class="row">
-                <div class="column-main">
-                  <label for="name">Name<br></label>
-                  <input name="name" type="text" class="name" placeholder="Random">
-                </div>
-                <div class="column-main">
-                  <label for="class">Class<br></label>
-                  <select name="class" class="role" required>
-                    <option>Random</option>
-                    <option>Paladin</option>
-                    <option>Warlock</option>
-                    <option>Fighter</option>
-                    <option>Rogue</option>
-                    <option>Cleric</option>
-                    <option>Barbarian</option>
-                    <option>Monk</option>
-                    <option>Bard</option>
-                    <option>Ranger</option>
-                    <option>Wizard</option>
-                    <option>Sorcerer</option>
-                    <option>Druid</option>
-                  </select>
-                </div>
-                <div class="column-main">
-                  <label for="race">Race<br></label>
-                  <select name="race" class="race" required>
-                    <option>Random</option>
-                    <option>Dragonborn</option>
-                    <option>Dwarf</option>
-                    <option>Elf</option>
-                    <option>Gnome</option>
-                    <option>Half-Elf</option>
-                    <option>Half-Orc</option>
-                    <option>Halfling</option>
-                    <option>Human</option>
-                    <option>Tiefling</option>
-                  </select>
-                </div>
-                <div class="column-main">
-                  <label for="alignment">Alignment<br></label>
-                  <select name="alignment" class="alignment" required>
-                    <option>Random</option>
-                    <option>Chaotic-neutral</option>
-                    <option>Chaotic-evil</option>
-                    <option>Chaotic-good</option>
-                    <option>Lawful-neutral</option>
-                    <option>Lawful-evil</option>
-                    <option>Lawful-good</option>
-                    <option>Neutral</option>
-                    <option>Neutral-evil</option>
-                    <option>Neutral-good</option>
-                  </select>
-                </div>
-                <div class="column-main">
-                  <p>Stats</p>
-                  <div class="manuel-stat-sheet">
-                    <label for="strength">Strength</label>
-                    <select name="strength" class="strength" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                    <label for="dexterity">Dexterity<br></label>
-                    <select name="dexterity" class="dexterity" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                    <label for="constitution">Constitution<br></label>
-                    <select name="constitution" class="constitution" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                    <label for="intelligence">Intelligence<br></label>
-                    <select name="intelligence" class="intelligence" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                    <label for="wisdom">Wisdom<br></label>
-                    <select name="wisdom" class="wisdom" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                    <label for="charisma">Charisma<br></label>
-                    <select name="charisma" class="charisma" required>
-                      <option>Random</option>
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
-                      <option>6</option>
-                      <option>7</option>
-                      <option>8</option>
-                      <option>9</option>
-                      <option>10</option>
-                      <option>11</option>
-                      <option>12</option>
-                      <option>13</option>
-                      <option>14</option>
-                      <option>15</option>
-                      <option>16</option>
-                      <option>17</option>
-                      <option>18</option>
-                      <option>19</option>
-                      <option>20</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="column-main">
-                  <button type="submit" class="submit">Generate</button>
-                </div>
-              </div>
-            </form>
+    <form data-view="feature-form" class="feature-form view">
+      <div class="feature-input">
+        <label for="name">Name</label>
+        <input name="name" type="text" class="name" placeholder="Random">
+      </div>
+      <div class="feature-input">
+        <label for="class">Class</label>
+        <select class="role" id="class" name="class" required>
+          <option value="random">Random</option>
+          <option value="paladin">Paladin</option>
+          <option value="warlock">Warlock</option>
+          <option value="fighter">Fighter</option>
+          <option value="rogue">Rogue</option>
+          <option value="cleric">Cleric</option>
+          <option value="barbarian">Barbarian</option>
+          <option value="monk">Monk</option>
+          <option value="bard">Bard</option>
+          <option value="ranger">Ranger</option>
+          <option value="wizard">Wizard</option>
+          <option value="sorcerer">Sorcerer</option>
+          <option value="druid">Druid</option>
+        </select>
+      </div>
+      <div class="feature-input">
+        <label for="race">Race</label>
+        <select class="race" id="race" name="race" required>
+          <option value="random">Random</option>
+          <option value="dragonborne">Dragonborn</option>
+          <option value="dwarf">Dwarf</option>
+          <option value="elf">Elf</option>
+          <option value="gnome">Gnome</option>
+          <option value="half-elf">Half-Elf</option>
+          <option value="half-orc">Half-Orc</option>
+          <option value="halfling">Halfling</option>
+          <option value="human">Human</option>
+          <option value="tiefling">Tiefling</option>
+        </select>
+      </div>
+      <div class="feature-input">
+        <label for="alignment">Alignment</label>
+        <select class="alignment" id="alignment" name="alignment" required>
+          <option value="random">Random</option>
+          <option value="cn">Chaotic-neutral</option>
+          <option value="ce">Chaotic-evil</option>
+          <option value="cg">Chaotic-good</option>
+          <option value="ln">Lawful-neutral</option>
+          <option value="le">Lawful-evil</option>
+          <option value="lg">Lawful-good</option>
+          <option value="tn">Neutral</option>
+          <option value="ne">Neutral-evil</option>
+          <option value="ng">Neutral-good</option>
+        </select>
+      </div>
+      <div class="feature-input">
+        <p>Stats</p>
+        <div class="stat-sheet">
+          <div class="stat">
+            <label for="strength">Strength</label>
+            <select name="strength" class="strength" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </div>
-          <div class="container">
-            <div data-view="character-entries" class="character-entries view hidden">
-              <div class="background hidden">
-                <div class="pop hidden">
-                  <p class="text-modal">Are you sure?</p>
-                  <div class="modal-row">
-                    <div class="column-full flex">
-                      <div class="column-half">
-                        <a href="#" class="cold-button">Cancel</a>
-                      </div>
-                      <div class="column-half">
-                        <a href="#" class="yes-button">Confirm</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+          <div class="stat">
+            <label for="dexterity">Dexterity</label>
+            <select name="dexterity" class="dexterity" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
+          </div>
+          <div class="stat">
+            <label for="constitution">Constitution</label>
+            <select name="constitution" class="constitution" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
+          </div>
+          <div class="stat">
+            <label for="intelligence">Intelligence</label>
+            <select name="intelligence" class="intelligence" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
+          </div>
+          <div class="stat">
+            <label for="wisdom">Wisdom</label>
+            <select name="wisdom" class="wisdom" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
+          </div>
+          <div class="stat">
+            <label for="charisma">Charisma</label>
+            <select name="charisma" class="charisma" required>
+              <option>Random</option>
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="column-main">
+        <button type="submit" class="submit">Generate</button>
+      </div>
+    </form>
+
+    <div data-view="character-entries" class="character-entries view hidden">
+      <div class="background hidden">
+        <div class="pop hidden">
+          <p class="text-modal">Are you sure?</p>
+          <div class="modal-row">
+            <div class="column-full flex">
+              <div class="column-half">
+                <a href="#" class="cold-button">Cancel</a>
               </div>
-              <div class="sort row">
-                <a href="#" class="class-sort">Sort by Class</a>
-                <a href="#" class="race-sort">Sort by Race</a>
-                <a href="#" class="name-sort">Sort by Name</a>
-              </div>
-              <div class="character-select">
-              </div>
-              <div class="row no-chars hidden">
-                <p>No characters created</p>
+              <div class="column-half">
+                <a href="#" class="yes-button">Confirm</a>
               </div>
             </div>
           </div>
-
-
-          <div class="container">
-            <form data-view="item-selection" class="view hidden item-selection">
-              <label for="weapon" class="inv-label">Weapons<br></label>
-              <select name="weapon" class="weapon" required>
-
-              </select>
-              <label for="armor" class="inv-label">Armors<br></label>
-              <select name="armor" class="armor" required>
-
-              </select>
-              <label for="potion" class="inv-label">Potions<br></label>
-              <select name="potion" class="potion" required>
-
-              </select>
-              <div class="row purchase-row">
-                <a href="#" class="purchase">Purchase</a>
-              </div>
-              <div class="row character-confirm">
-              </div>
-              <div class="row purchase-row-confirm">
-              </div>
-            </form>
-          </div>
         </div>
-        <div class="column-quarter">
-          <img class="dnd-image" src="images/giant.jpg">
-        </div>
+      </div>
+      <div class="sort row">
+        <a href="#" class="class-sort">Sort by Class</a>
+        <a href="#" class="race-sort">Sort by Race</a>
+        <a href="#" class="name-sort">Sort by Name</a>
+      </div>
+      <div class="character-select">
+      </div>
+      <div class="row no-chars hidden">
+        <p>No characters created</p>
       </div>
     </div>
 
-    <div class="container-two">
-      <div data-view="character-sheet" class="view hidden character-info">
-        <div class="row regenerate">
-          <a class="regen" href="#">Regenerate</a>
-          <a class="save" href="#">Save</a>
+    <form data-view="item-selection" class="view hidden item-selection">
+      <label for="weapon" class="inv-label">Weapons<br></label>
+      <select name="weapon" class="weapon" required>
+
+      </select>
+      <label for="armor" class="inv-label">Armors<br></label>
+      <select name="armor" class="armor" required>
+
+      </select>
+      <label for="potion" class="inv-label">Potions<br></label>
+      <select name="potion" class="potion" required>
+
+      </select>
+      <div class="row purchase-row">
+        <a href="#" class="purchase">Purchase</a>
+      </div>
+      <div class="row character-confirm">
+      </div>
+      <div class="row purchase-row-confirm">
+      </div>
+    </form>
+
+    <div data-view="character-sheet" class="view hidden character-info">
+      <div class="row regenerate">
+        <a class="regen" href="#">Regenerate</a>
+        <a class="save" href="#">Save</a>
+      </div>
+      <div class="row character-sheet">
+        <div class="column-half column-full img">
+          <img class="class-image" src="https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg">
         </div>
-        <div class="row character-sheet">
-          <div class="column-half column-full img">
-            <img class="class-image" src="https://www.dndbeyond.com/avatars/10/0/636336416778392507.jpeg">
-          </div>
-          <div class="column-half info column-full">
-          </div>
+        <div class="column-half info column-full" id="info">
+          <h2 id="sheet-name"></h2>
+          <h2 id="sheet-race"></h2>
+          <h2 id="sheet-class"></h2>
+          <h2 id="sheet-alignment"></h2>
+          <h2 id="sheet-stats"></h2>
+          <h2 id="sheet-hitdie"></h2>
+          <h2 id="sheet-size"></h2>
+          <h2 id="sheet-armor"></h2>
+          <h2 id="sheet-languages"></h2>
         </div>
-        <div class="row description">
-        </div>
+      </div>
+      <div class="row description" id="description">
       </div>
     </div>
   </main>
