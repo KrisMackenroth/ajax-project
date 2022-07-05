@@ -55,38 +55,32 @@ classes.responseType = 'json';
 
 classes.send();
 
-var strength = document.querySelector('.strength');
-var dexterity = document.querySelector('.dexterity');
-var wisdom = document.querySelector('.wisdom');
-var constitution = document.querySelector('.constitution');
-var intelligence = document.querySelector('.intelligence');
-var charisma = document.querySelector('.charisma');
-var featureForm = document.querySelector('.feature-form');
-var alignment = document.querySelector('.alignment');
-var role = document.querySelector('.role');
-var race = document.querySelector('.race');
-var info = document.querySelector('.info');
-var description = document.querySelector('.description');
-var image = document.querySelector('.class-image');
-var view = document.querySelectorAll('.view');
-var save = document.querySelector('.save');
-var yesButton = document.querySelector('.yes-button');
-var regen = document.querySelector('.regen');
-var noChar = document.querySelector('.no-chars');
+const featureForm = document.querySelector('.feature-form');
+const alignment = document.querySelector('.alignment');
+const role = document.querySelector('.role');
+const race = document.querySelector('.race');
+const info = document.querySelector('.info');
+const description = document.querySelector('.description');
+const image = document.querySelector('.class-image');
+const view = document.querySelectorAll('.view');
+const save = document.querySelector('.save');
+const yesButton = document.querySelector('.yes-button');
+const regen = document.querySelector('.regen');
+const noChar = document.querySelector('.no-chars');
 var currentCharacter;
-var weapon = document.querySelector('.weapon');
-var armor = document.querySelector('.armor');
-var potion = document.querySelector('.potion');
-var characterConfirm = document.querySelector('.character-confirm');
-var confirmRow = document.querySelector('.purchase-row-confirm');
-var characterSheet = document.querySelector('.character-info');
-var characterSelect = document.querySelector('.character-select');
-var header = document.querySelector('header');
-var characterEntries = document.querySelector('.character-entries');
-var itemSelection = document.querySelector('.item-selection');
-var pop = document.querySelector('.pop');
-var background = document.querySelector('.background');
-var sideImages = document.querySelector('.side-images');
+const weapon = document.querySelector('.weapon');
+const armor = document.querySelector('.armor');
+const potion = document.querySelector('.potion');
+const characterConfirm = document.querySelector('.character-confirm');
+const confirmRow = document.querySelector('.purchase-row-confirm');
+const characterSheet = document.querySelector('.character-info');
+const characterSelect = document.querySelector('.character-select');
+const header = document.querySelector('header');
+const characterEntries = document.querySelector('.character-entries');
+const itemSelection = document.querySelector('.item-selection');
+const pop = document.querySelector('.pop');
+const background = document.querySelector('.background');
+const sideImages = document.querySelector('.side-images');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
@@ -125,38 +119,38 @@ function compareName(a, b) {
 
 // Populates the inventory with weapons, armor, and potions from the pulled API.
 function inventory() {
-  var optionNone = document.createElement('option');
-  var noneText = document.createTextNode('None');
+  const optionNone = document.createElement('option');
+  const noneText = document.createTextNode('None');
   optionNone.appendChild(noneText);
   weapon.appendChild(optionNone);
-  var noneArmor = document.createElement('option');
-  var noneArmorText = document.createTextNode('None');
+  const noneArmor = document.createElement('option');
+  const noneArmorText = document.createTextNode('None');
   noneArmor.appendChild(noneArmorText);
   armor.appendChild(noneArmor);
-  var nonePotion = document.createElement('option');
-  var nonePotionText = document.createTextNode('None');
+  const nonePotion = document.createElement('option');
+  const nonePotionText = document.createTextNode('None');
   nonePotion.appendChild(nonePotionText);
   potion.appendChild(nonePotion);
   weapons.addEventListener('load', function () {
-    for (var i = 0; i < weapons.response.equipment.length; i++) {
-      var options = document.createElement('option');
-      var textOptions = document.createTextNode(weapons.response.equipment[i].name);
+    for (let i = 0; i < weapons.response.equipment.length; i++) {
+      const options = document.createElement('option');
+      const textOptions = document.createTextNode(weapons.response.equipment[i].name);
       options.appendChild(textOptions);
       weapon.appendChild(options);
     }
   });
   armors.addEventListener('load', function () {
-    for (var j = 0; j < armors.response.equipment.length; j++) {
-      var armorOptions = document.createElement('option');
-      var armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
+    for (let j = 0; j < armors.response.equipment.length; j++) {
+      const armorOptions = document.createElement('option');
+      const armorTextOptions = document.createTextNode(armors.response.equipment[j].name);
       armorOptions.appendChild(armorTextOptions);
       armor.appendChild(armorOptions);
     }
   });
   potions.addEventListener('load', function () {
-    for (var k = 0; k < potions.response.equipment.length; k++) {
-      var potionOptions = document.createElement('option');
-      var potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
+    for (let k = 0; k < potions.response.equipment.length; k++) {
+      const potionOptions = document.createElement('option');
+      const potionTextOptions = document.createTextNode(potions.response.equipment[k].name);
       potionOptions.appendChild(potionTextOptions);
       potion.appendChild(potionOptions);
     }
@@ -165,24 +159,24 @@ function inventory() {
 
 // Creates a character sheet when a character is generated or a saved character is viewed.
 function characterEntry(entry) {
-  var h2Name = document.createElement('h2');
-  var h2Class = document.createElement('h2');
-  var h2Alignment = document.createElement('h2');
-  var h2Race = document.createElement('h2');
-  var h2HitDie = document.createElement('h2');
-  var h2Size = document.createElement('h2');
-  var h2Languages = document.createElement('h2');
-  var h2Armor = document.createElement('h2');
-  var h2Stats = document.createElement('h2');
-  var armorText = document.createTextNode('Armor Proficiency: ' + entry.armorProf);
-  var sizeText = document.createTextNode('Size: ' + entry.size);
-  var languagesText = document.createTextNode('Languages: ' + entry.languages);
-  var nameText = document.createTextNode('Name: ' + entry.name);
-  var hitDieText = document.createTextNode('Hit Dice: ' + entry.hitDie);
-  var classText = document.createTextNode('Class: ' + entry.class);
-  var alignmentText = document.createTextNode('Alignment: ' + entry.alignment);
-  var raceText = document.createTextNode('Race: ' + entry.race);
-  var statsText = document.createTextNode('Str: ' + entry.strength + ' ' + 'Dex: ' + entry.dexterity + ' ' + 'Con: ' + entry.constitution + ' ' + 'Int: ' + entry.intelligence + ' ' + 'Wis: ' + entry.wisdom + ' ' + 'Cha: ' + entry.charisma);
+  const h2Name = document.createElement('h2');
+  const h2Class = document.createElement('h2');
+  const h2Alignment = document.createElement('h2');
+  const h2Race = document.createElement('h2');
+  const h2HitDie = document.createElement('h2');
+  const h2Size = document.createElement('h2');
+  const h2Languages = document.createElement('h2');
+  const h2Armor = document.createElement('h2');
+  const h2Stats = document.createElement('h2');
+  const armorText = document.createTextNode('Armor Proficiency: ' + entry.armorProf);
+  const sizeText = document.createTextNode('Size: ' + entry.size);
+  const languagesText = document.createTextNode('Languages: ' + entry.languages);
+  const nameText = document.createTextNode('Name: ' + entry.name);
+  const hitDieText = document.createTextNode('Hit Dice: ' + entry.hitDie);
+  const classText = document.createTextNode('Class: ' + entry.class);
+  const alignmentText = document.createTextNode('Alignment: ' + entry.alignment);
+  const raceText = document.createTextNode('Race: ' + entry.race);
+  const statsText = document.createTextNode('Str: ' + entry.strength + ' ' + 'Dex: ' + entry.dexterity + ' ' + 'Con: ' + entry.constitution + ' ' + 'Int: ' + entry.intelligence + ' ' + 'Wis: ' + entry.wisdom + ' ' + 'Cha: ' + entry.charisma);
   h2Stats.appendChild(statsText);
   h2Armor.appendChild(armorText);
   h2Size.appendChild(sizeText);
@@ -207,34 +201,34 @@ function characterEntry(entry) {
 
 // Generates all characters that have been saved to local storage.
 function characterView(character) {
-  var firstName = character.name.split(' ');
-  var divRow = document.createElement('div');
+  const firstName = character.name.split(' ');
+  const divRow = document.createElement('div');
   divRow.classList.add('row');
-  var divBlock = document.createElement('div');
+  const divBlock = document.createElement('div');
   divBlock.classList.add('block');
-  var classImage = document.createElement('img');
+  const classImage = document.createElement('img');
   classImage.classList.add('sm-img');
   classImage.setAttribute('src', character.image);
-  var pName = document.createElement('p');
-  var pClass = document.createElement('p');
+  const pName = document.createElement('p');
+  const pClass = document.createElement('p');
   pClass.classList.add('class-name-entry');
-  var nameText = document.createTextNode(firstName[0]);
-  var classText = document.createTextNode(character.class);
+  const nameText = document.createTextNode(firstName[0]);
+  const classText = document.createTextNode(character.class);
   pName.appendChild(nameText);
   pClass.appendChild(classText);
-  var aRow = document.createElement('div');
+  const aRow = document.createElement('div');
   aRow.classList.add('new-row');
-  var viewFullColumn = document.createElement('div');
+  const viewFullColumn = document.createElement('div');
   viewFullColumn.classList.add('column-full');
   viewFullColumn.classList.add('flex');
-  var aView = document.createElement('a');
-  var viewDiv = document.createElement('div');
+  const aView = document.createElement('a');
+  const viewDiv = document.createElement('div');
   viewDiv.classList.add('column-half');
   viewDiv.classList.add('center');
-  var deleteDiv = document.createElement('div');
+  const deleteDiv = document.createElement('div');
   deleteDiv.classList.add('column-half');
   deleteDiv.classList.add('center');
-  var aDelete = document.createElement('a');
+  const aDelete = document.createElement('a');
   aDelete.classList.add('view-char');
   aDelete.classList.add('column-half');
   aDelete.setAttribute('href', '#');
@@ -262,7 +256,7 @@ function characterView(character) {
 
 // Swaps to the correct view depenending on the data-view of the event that is clicked.
 function viewSwap(event) {
-  for (var i = 0; i < 4; i++) {
+  for (let i = 0; i < 4; i++) {
     if (view[i].getAttribute('data-view') === event) {
       view[i].classList.remove('hidden');
       view[i].classList.add('active');
@@ -281,17 +275,17 @@ function viewSwap(event) {
 // to the view that the user was on prior to the reload.
 window.addEventListener('DOMContentLoaded', function (e) {
   inventory();
-  var currentView = data.view;
+  const currentView = data.view;
   if (currentView === 'feature-form' || currentView === 'character-entries') {
     data.viewing = null;
   }
   if (currentView === 'character-sheet') {
     sideImages.classList.add('hidden');
   } else { sideImages.classList.remove('hidden'); }
-  for (var i = 0; i < data.characters.length; i++) {
+  for (let i = 0; i < data.characters.length; i++) {
     characterView(data.characters[i]);
   }
-  for (var n = 0; n < data.characters.length; n++) {
+  for (let n = 0; n < data.characters.length; n++) {
     if (data.viewing === data.characters[n].id) {
       characterEntry(data.characters[n]);
       image.setAttribute('src', data.characters[n].image);
@@ -302,7 +296,7 @@ window.addEventListener('DOMContentLoaded', function (e) {
 
 function randomStat(stat) {
   if (stat.value === 'Random') {
-    var randomNum = Math.floor(Math.random() * 20);
+    const randomNum = Math.floor(Math.random() * 20);
     stat.value = randomNum;
     return stat;
   } else return stat;
@@ -310,12 +304,18 @@ function randomStat(stat) {
 
 // Handles character generation and character storage to local storage.
 featureForm.addEventListener('submit', function (e) {
+  const strength = document.querySelector('.strength');
+  const dexterity = document.querySelector('.dexterity');
+  const wisdom = document.querySelector('.wisdom');
+  const constitution = document.querySelector('.constitution');
+  const intelligence = document.querySelector('.intelligence');
+  const charisma = document.querySelector('.charisma');
   e.preventDefault();
-  var newCharacter = {};
+  const newCharacter = {};
   newCharacter.raceValue = race.value;
   newCharacter.roleValue = role.value;
   newCharacter.alignmentValue = alignment.value;
-  var statInitial = {};
+  const statInitial = {};
   statInitial.strength = strength.value;
   statInitial.dexterity = dexterity.value;
   statInitial.constitution = constitution.value;
@@ -336,15 +336,15 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.charisma = charisma.value;
   newCharacter.statInitial = statInitial;
   if (race.value === 'Random') {
-    var randomIndex = Math.floor(Math.random() * races.response.results.length);
+    const randomIndex = Math.floor(Math.random() * races.response.results.length);
     newCharacter.race = races.response.results[randomIndex].name;
   } else { newCharacter.race = race.value; }
   if (role.value === 'Random') {
-    var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+    const classesIndex = Math.floor(Math.random() * classes.response.results.length);
     newCharacter.class = classes.response.results[classesIndex].name;
   } else { newCharacter.class = role.value; }
   if (alignment.value === 'Random') {
-    var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+    const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
     newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
   } else { newCharacter.alignment = alignment.value; }
 
@@ -356,13 +356,13 @@ featureForm.addEventListener('submit', function (e) {
     newCharacter.nameValue = 'Input';
   }
 
-  for (var i = 0; i < classes.response.results.length; i++) {
+  for (let i = 0; i < classes.response.results.length; i++) {
     if (newCharacter.class === classes.response.results[i].name) {
       newCharacter.hitDie = classes.response.results[i].hit_dice;
       newCharacter.armorProf = classes.response.results[i].prof_armor;
     }
   }
-  for (var j = 0; j < races.response.results.length; j++) {
+  for (let j = 0; j < races.response.results.length; j++) {
     if (newCharacter.race === races.response.results[j].name) {
       newCharacter.size = races.response.results[j].size;
       newCharacter.languages = races.response.results[j].languages;
@@ -412,28 +412,28 @@ header.addEventListener('click', function (event) {
 
 // Handles clicks on the characters entries page.
 characterEntries.addEventListener('click', function (event) {
-  var oldNum = event.target.getAttribute('id');
-  var newNum = parseInt(oldNum);
+  const oldNum = event.target.getAttribute('id');
+  const newNum = parseInt(oldNum);
   if (event.target.classList.contains('class-sort')) {
     characterSelect.innerHTML = '';
     data.characters.sort(compareClass);
-    for (var i = 0; i < data.characters.length; i++) {
+    for (let i = 0; i < data.characters.length; i++) {
       characterView(data.characters[i]);
     }
   } else if (event.target.classList.contains('race-sort')) {
     characterSelect.innerHTML = '';
     data.characters.sort(compareRaces);
-    for (var k = 0; k < data.characters.length; k++) {
+    for (let k = 0; k < data.characters.length; k++) {
       characterView(data.characters[k]);
     }
   } else if (event.target.classList.contains('name-sort')) {
     characterSelect.innerHTML = '';
     data.characters.sort(compareName);
-    for (var l = 0; l < data.characters.length; l++) {
+    for (let l = 0; l < data.characters.length; l++) {
       characterView(data.characters[l]);
     }
   }
-  for (var m = 0; m < data.characters.length; m++) {
+  for (let m = 0; m < data.characters.length; m++) {
     if (newNum === data.characters[m].id) {
       if (event.target.getAttribute('type') === 'view') {
         regen.classList.add('hidden');
@@ -441,8 +441,8 @@ characterEntries.addEventListener('click', function (event) {
         data.viewing = data.characters[m].id;
         characterEntry(data.characters[m]);
         if (Object.prototype.hasOwnProperty.call(data.characters[m], 'inventory')) {
-          var inventoryh2 = document.createElement('h2');
-          var inventoryText = document.createTextNode('Inventory: ' + data.characters[m].inventory.weapon + ', ' + data.characters[m].inventory.armor + ', ' + data.characters[m].inventory.potion);
+          const inventoryh2 = document.createElement('h2');
+          const inventoryText = document.createTextNode('Inventory: ' + data.characters[m].inventory.weapon + ', ' + data.characters[m].inventory.armor + ', ' + data.characters[m].inventory.potion);
           inventoryh2.appendChild(inventoryText);
           description.appendChild(inventoryh2);
         }
@@ -459,9 +459,9 @@ characterEntries.addEventListener('click', function (event) {
     pop.classList.add('hidden');
     background.classList.add('hidden');
   } else if (event.target.classList.contains('yes-button')) {
-    var temp = yesButton.getAttribute('id');
-    var idCheck = parseInt(temp);
-    for (var n = 0; n < data.characters.length; n++) {
+    const temp = yesButton.getAttribute('id');
+    const idCheck = parseInt(temp);
+    for (let n = 0; n < data.characters.length; n++) {
       if (idCheck === data.characters[n].id) {
         data.characters.splice(n, 1);
         location.reload();
@@ -476,18 +476,18 @@ itemSelection.addEventListener('click', function (event) {
   if (event.target.classList.contains('purchase')) {
     if (data.characters.length > 0) {
 
-      var label = document.createElement('label');
+      const label = document.createElement('label');
       label.textContent = 'Select which Character';
-      var select = document.createElement('select');
+      const select = document.createElement('select');
       select.setAttribute('name', 'character');
       select.classList.add('itemCharacter');
-      var confirm = document.createElement('a');
+      const confirm = document.createElement('a');
       confirm.setAttribute('href', '#');
       confirm.classList.add('confirm-character');
       confirm.textContent = 'Confirm';
-      for (var i = 0; i < data.characters.length; i++) {
-        var options = document.createElement('option');
-        var textOptions = document.createTextNode(data.characters[i].name);
+      for (let i = 0; i < data.characters.length; i++) {
+        const options = document.createElement('option');
+        const textOptions = document.createTextNode(data.characters[i].name);
         options.appendChild(textOptions);
         select.appendChild(options);
       }
@@ -497,9 +497,9 @@ itemSelection.addEventListener('click', function (event) {
     }
   }
 
-  var temp = document.querySelector('.itemCharacter');
+  const temp = document.querySelector('.itemCharacter');
   if (event.target.classList.contains('confirm-character')) {
-    var inventory = {};
+    const inventory = {};
     if (weapon.value !== 'None') {
       inventory.weapon = weapon.value;
     } else { inventory.weapon = 'No Weapon equipped'; }
@@ -509,7 +509,7 @@ itemSelection.addEventListener('click', function (event) {
     if (potion.value !== 'None') {
       inventory.potion = potion.value;
     } else { inventory.potion = 'No Potion acquired'; }
-    for (var j = 0; j < data.characters.length; j++) {
+    for (let j = 0; j < data.characters.length; j++) {
       if (temp.value === data.characters[j].name) {
         data.characters[j].inventory = inventory;
       }
@@ -525,10 +525,10 @@ characterSheet.addEventListener('click', function (event) {
   if (event.target.classList.contains('regen')) {
     info.innerHTML = '';
     description.innerHTML = '';
-    var newCharacter = {};
+    const newCharacter = {};
     newCharacter.statInitial = currentCharacter.statInitial;
     if (currentCharacter.statInitial.strength === 'Random') {
-      var randomNum = Math.floor(Math.random() * 20);
+      const randomNum = Math.floor(Math.random() * 20);
       newCharacter.strength = randomNum;
       newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
     } else {
@@ -536,7 +536,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.strength = currentCharacter.strength;
     }
     if (currentCharacter.statInitial.dexterity === 'Random') {
-      var randomNumTwo = Math.floor(Math.random() * 20);
+      const randomNumTwo = Math.floor(Math.random() * 20);
       newCharacter.dexterity = randomNumTwo;
       newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
     } else {
@@ -544,7 +544,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.dexterity = currentCharacter.dexterity;
     }
     if (currentCharacter.statInitial.charisma === 'Random') {
-      var randomNumThree = Math.floor(Math.random() * 20);
+      const randomNumThree = Math.floor(Math.random() * 20);
       newCharacter.charisma = randomNumThree;
       newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
     } else {
@@ -552,7 +552,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.charisma = currentCharacter.charisma;
     }
     if (currentCharacter.statInitial.wisdom === 'Random') {
-      var randomNumFour = Math.floor(Math.random() * 20);
+      const randomNumFour = Math.floor(Math.random() * 20);
       newCharacter.wisdom = randomNumFour;
       newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
     } else {
@@ -560,7 +560,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.wisdom = currentCharacter.wisdom;
     }
     if (currentCharacter.statInitial.intelligence === 'Random') {
-      var randomNumFive = Math.floor(Math.random() * 20);
+      const randomNumFive = Math.floor(Math.random() * 20);
       newCharacter.intelligence = randomNumFive;
       newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
     } else {
@@ -568,7 +568,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.intelligence = currentCharacter.intelligence;
     }
     if (currentCharacter.statInitial.constitution === 'Random') {
-      var randomNumSix = Math.floor(Math.random() * 20);
+      const randomNumSix = Math.floor(Math.random() * 20);
       newCharacter.constitution = randomNumSix;
       newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
     } else {
@@ -576,7 +576,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.constitution = currentCharacter.constitution;
     }
     if (currentCharacter.raceValue === 'Random') {
-      var randomIndex = Math.floor(Math.random() * races.response.results.length);
+      const randomIndex = Math.floor(Math.random() * races.response.results.length);
       newCharacter.race = races.response.results[randomIndex].name;
       newCharacter.raceValue = 'Random';
     } else {
@@ -584,7 +584,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.raceValue = currentCharacter.raceValue;
     }
     if (currentCharacter.roleValue === 'Random') {
-      var classesIndex = Math.floor(Math.random() * classes.response.results.length);
+      const classesIndex = Math.floor(Math.random() * classes.response.results.length);
       newCharacter.class = classes.response.results[classesIndex].name;
       newCharacter.roleValue = 'Random';
     } else {
@@ -592,7 +592,7 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.roleValue = currentCharacter.roleValue;
     }
     if (currentCharacter.alignmentValue === 'Random') {
-      var alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
+      const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
       newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
       newCharacter.alignmentValue = 'Random';
     } else {
@@ -606,13 +606,13 @@ characterSheet.addEventListener('click', function (event) {
       newCharacter.name = currentCharacter.name;
       newCharacter.nameValue = currentCharacter.nameValue;
     }
-    for (var i = 0; i < classes.response.results.length; i++) {
+    for (let i = 0; i < classes.response.results.length; i++) {
       if (newCharacter.class === classes.response.results[i].name) {
         newCharacter.hitDie = classes.response.results[i].hit_dice;
         newCharacter.armorProf = classes.response.results[i].prof_armor;
       }
     }
-    for (var j = 0; j < races.response.results.length; j++) {
+    for (let j = 0; j < races.response.results.length; j++) {
       if (newCharacter.race === races.response.results[j].name) {
         newCharacter.size = races.response.results[j].size;
         newCharacter.languages = races.response.results[j].languages;
@@ -634,11 +634,11 @@ characterSheet.addEventListener('click', function (event) {
   }
 });
 
-var url = document.querySelector('.url');
-var urlInput = document.querySelector('.user-url');
+const url = document.querySelector('.url');
+const urlInput = document.querySelector('.user-url');
 
 urlInput.addEventListener('input', function (event) {
-  var test = event.target.value;
+  const test = event.target.value;
   image.setAttribute('src', test);
 });
 
