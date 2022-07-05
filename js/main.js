@@ -1,5 +1,5 @@
 // List of retrieved API's.
-var potions = new XMLHttpRequest();
+const potions = new XMLHttpRequest();
 
 potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
 
@@ -7,7 +7,7 @@ potions.responseType = 'json';
 
 potions.send();
 
-var weapons = new XMLHttpRequest();
+const weapons = new XMLHttpRequest();
 
 weapons.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/weapon');
 
@@ -15,7 +15,7 @@ weapons.responseType = 'json';
 
 weapons.send();
 
-var armors = new XMLHttpRequest();
+const armors = new XMLHttpRequest();
 
 armors.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/armor');
 
@@ -23,7 +23,7 @@ armors.responseType = 'json';
 
 armors.send();
 
-var alignmentApi = new XMLHttpRequest();
+const alignmentApi = new XMLHttpRequest();
 
 alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
 
@@ -31,7 +31,7 @@ alignmentApi.responseType = 'json';
 
 alignmentApi.send();
 
-var races = new XMLHttpRequest();
+const races = new XMLHttpRequest();
 
 races.open('GET', 'https://api.open5e.com/races');
 
@@ -39,7 +39,7 @@ races.responseType = 'json';
 
 races.send();
 
-var names = new XMLHttpRequest();
+const names = new XMLHttpRequest();
 
 names.open('GET', 'https://randomuser.me/api/');
 
@@ -47,7 +47,7 @@ names.responseType = 'json';
 
 names.send();
 
-var classes = new XMLHttpRequest();
+const classes = new XMLHttpRequest();
 
 classes.open('GET', 'https://api.open5e.com/classes');
 
