@@ -359,3 +359,9 @@ a:hover {
 .center {
   text-align: center;
 }
+
+.url {
+  text-align: center;
+  font-family: "Share Tech", sans-serif;
+  color: black;
+}
