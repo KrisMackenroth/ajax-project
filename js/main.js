@@ -67,7 +67,7 @@ const save = document.querySelector('.save');
 const yesButton = document.querySelector('.yes-button');
 const regen = document.querySelector('.regen');
 const noChar = document.querySelector('.no-chars');
-var currentCharacter;
+let currentCharacter;
 const weapon = document.querySelector('.weapon');
 const armor = document.querySelector('.armor');
 const potion = document.querySelector('.potion');
@@ -645,8 +645,8 @@ urlInput.addEventListener('input', function (event) {
 // This function sets the image of a character based on if the class name matches the index of an image.
 function imageSet(newCharacter) {
   if (urlInput.value === '') {
-    image.setAttribute('src', '/images/' + newCharacter.class + '.jpeg');
-    newCharacter.image = '/images/' + newCharacter.class + '.jpeg';
+    image.setAttribute('src', './images/' + newCharacter.class + '.jpeg');
+    newCharacter.image = './images/' + newCharacter.class + '.jpeg';
   } else {
     image.setAttribute('src', urlInput.value);
     newCharacter.image = urlInput.value;
