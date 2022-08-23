@@ -520,6 +520,17 @@ itemSelection.addEventListener('click', function (event) {
   }
 });
 
+function setStat(newCharacter, stat, currentCharacter) {
+  if (currentCharacter.statInitial[stat] === 'Random') {
+    const randomNum = Math.floor(Math.random() * 20);
+    newCharacter[stat] = randomNum;
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+  } else {
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+    newCharacter[stat] = currentCharacter[stat];
+  }
+}
+
 // Handles clicks on the character sheet page.
 characterSheet.addEventListener('click', function (event) {
   if (event.target.classList.contains('regen')) {
@@ -527,54 +538,12 @@ characterSheet.addEventListener('click', function (event) {
     description.innerHTML = '';
     const newCharacter = {};
     newCharacter.statInitial = currentCharacter.statInitial;
-    if (currentCharacter.statInitial.strength === 'Random') {
-      const randomNum = Math.floor(Math.random() * 20);
-      newCharacter.strength = randomNum;
-      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
-    } else {
-      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
-      newCharacter.strength = currentCharacter.strength;
-    }
-    if (currentCharacter.statInitial.dexterity === 'Random') {
-      const randomNumTwo = Math.floor(Math.random() * 20);
-      newCharacter.dexterity = randomNumTwo;
-      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
-    } else {
-      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
-      newCharacter.dexterity = currentCharacter.dexterity;
-    }
-    if (currentCharacter.statInitial.charisma === 'Random') {
-      const randomNumThree = Math.floor(Math.random() * 20);
-      newCharacter.charisma = randomNumThree;
-      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
-    } else {
-      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
-      newCharacter.charisma = currentCharacter.charisma;
-    }
-    if (currentCharacter.statInitial.wisdom === 'Random') {
-      const randomNumFour = Math.floor(Math.random() * 20);
-      newCharacter.wisdom = randomNumFour;
-      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
-    } else {
-      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
-      newCharacter.wisdom = currentCharacter.wisdom;
-    }
-    if (currentCharacter.statInitial.intelligence === 'Random') {
-      const randomNumFive = Math.floor(Math.random() * 20);
-      newCharacter.intelligence = randomNumFive;
-      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
-    } else {
-      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
-      newCharacter.intelligence = currentCharacter.intelligence;
-    }
-    if (currentCharacter.statInitial.constitution === 'Random') {
-      const randomNumSix = Math.floor(Math.random() * 20);
-      newCharacter.constitution = randomNumSix;
-      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
-    } else {
-      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
-      newCharacter.constitution = currentCharacter.constitution;
-    }
+    setStat(newCharacter, 'strength', currentCharacter);
+    setStat(newCharacter, 'dexterity', currentCharacter);
+    setStat(newCharacter, 'charisma', currentCharacter);
+    setStat(newCharacter, 'wisdom', currentCharacter);
+    setStat(newCharacter, 'intelligence', currentCharacter);
+    setStat(newCharacter, 'constitution', currentCharacter);
     if (currentCharacter.raceValue === 'Random') {
       const randomIndex = Math.floor(Math.random() * races.response.results.length);
       newCharacter.race = races.response.results[randomIndex].name;
