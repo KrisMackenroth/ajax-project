@@ -531,6 +531,17 @@ function setStat(newCharacter, stat, currentCharacter) {
   }
 }
 
+function setInfo(currentCharacter, newCharacter, infoValue, value, stringValue) {
+  if (currentCharacter[infoValue] === 'Random') {
+    const randomIndex = Math.floor(Math.random() * value.response.results.length);
+    newCharacter[stringValue] = value.response.results[randomIndex].name;
+    newCharacter[infoValue] = 'Random';
+  } else {
+    newCharacter[stringValue] = currentCharacter[infoValue];
+    newCharacter[infoValue] = currentCharacter[infoValue];
+  }
+}
+
 // Handles clicks on the character sheet page.
 characterSheet.addEventListener('click', function (event) {
   if (event.target.classList.contains('regen')) {
@@ -544,30 +555,9 @@ characterSheet.addEventListener('click', function (event) {
     setStat(newCharacter, 'wisdom', currentCharacter);
     setStat(newCharacter, 'intelligence', currentCharacter);
     setStat(newCharacter, 'constitution', currentCharacter);
-    if (currentCharacter.raceValue === 'Random') {
-      const randomIndex = Math.floor(Math.random() * races.response.results.length);
-      newCharacter.race = races.response.results[randomIndex].name;
-      newCharacter.raceValue = 'Random';
-    } else {
-      newCharacter.race = currentCharacter.raceValue;
-      newCharacter.raceValue = currentCharacter.raceValue;
-    }
-    if (currentCharacter.roleValue === 'Random') {
-      const classesIndex = Math.floor(Math.random() * classes.response.results.length);
-      newCharacter.class = classes.response.results[classesIndex].name;
-      newCharacter.roleValue = 'Random';
-    } else {
-      newCharacter.class = currentCharacter.roleValue;
-      newCharacter.roleValue = currentCharacter.roleValue;
-    }
-    if (currentCharacter.alignmentValue === 'Random') {
-      const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-      newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-      newCharacter.alignmentValue = 'Random';
-    } else {
-      newCharacter.alignment = currentCharacter.alignmentValue;
-      newCharacter.alignmentValue = currentCharacter.alignmentValue;
-    }
+    setInfo(currentCharacter, newCharacter, 'raceValue', races, 'race');
+    setInfo(currentCharacter, newCharacter, 'roleValue', classes, 'class');
+    setInfo(currentCharacter, newCharacter, 'alignmentValue', alignmentApi, 'alignment');
     if (currentCharacter.nameValue === 'Random') {
       newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
       newCharacter.nameValue = 'Random';
