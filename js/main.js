@@ -257,7 +257,10 @@ function viewSwap(event) {
 // to the view that the user was on prior to the reload.
 window.addEventListener('DOMContentLoaded', function (e) {
   inventory();
-  const currentView = data.view;
+  let currentView = data.view;
+  if (currentView === 'character-sheet' && data.viewing === null) {
+    currentView = 'feature-form';
+  }
   if (currentView === 'feature-form' || currentView === 'character-entries') {
     data.viewing = null;
   }
