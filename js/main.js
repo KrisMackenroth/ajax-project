@@ -1,60 +1,20 @@
 // List of retrieved API's.
-const potions = new XMLHttpRequest();
 
-potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
+function apiRequest(url) {
+  const api = new XMLHttpRequest();
+  api.open('GET', url);
+  api.responseType = 'json';
+  api.send();
+  return api;
+}
 
-potions.responseType = 'json';
-
-potions.send();
-
-const weapons = new XMLHttpRequest();
-
-weapons.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/weapon');
-
-weapons.responseType = 'json';
-
-weapons.send();
-
-const armors = new XMLHttpRequest();
-
-armors.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/armor');
-
-armors.responseType = 'json';
-
-armors.send();
-
-const alignmentApi = new XMLHttpRequest();
-
-alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
-
-alignmentApi.responseType = 'json';
-
-alignmentApi.send();
-
-const races = new XMLHttpRequest();
-
-races.open('GET', 'https://api.open5e.com/races');
-
-races.responseType = 'json';
-
-races.send();
-
-const names = new XMLHttpRequest();
-
-names.open('GET', 'https://randomuser.me/api/');
-
-names.responseType = 'json';
-
-names.send();
-
-const classes = new XMLHttpRequest();
-
-classes.open('GET', 'https://api.open5e.com/classes');
-
-classes.responseType = 'json';
-
-classes.send();
-
+const classes = apiRequest('https://api.open5e.com/classes');
+const names = apiRequest('https://randomuser.me/api/');
+const races = apiRequest('https://api.open5e.com/races');
+const alignmentApi = apiRequest('https://www.dnd5eapi.co/api/alignments');
+const armors = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/armor');
+const weapons = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/weapon');
+const potions = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/potion');
 const featureForm = document.querySelector('.feature-form');
 const alignment = document.querySelector('.alignment');
 const role = document.querySelector('.role');
