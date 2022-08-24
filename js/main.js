@@ -1,60 +1,20 @@
 // List of retrieved API's.
-const potions = new XMLHttpRequest();
 
-potions.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/potion');
+function apiRequest(url) {
+  const api = new XMLHttpRequest();
+  api.open('GET', url);
+  api.responseType = 'json';
+  api.send();
+  return api;
+}
 
-potions.responseType = 'json';
-
-potions.send();
-
-const weapons = new XMLHttpRequest();
-
-weapons.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/weapon');
-
-weapons.responseType = 'json';
-
-weapons.send();
-
-const armors = new XMLHttpRequest();
-
-armors.open('GET', 'https://www.dnd5eapi.co/api/equipment-categories/armor');
-
-armors.responseType = 'json';
-
-armors.send();
-
-const alignmentApi = new XMLHttpRequest();
-
-alignmentApi.open('GET', 'https://www.dnd5eapi.co/api/alignments');
-
-alignmentApi.responseType = 'json';
-
-alignmentApi.send();
-
-const races = new XMLHttpRequest();
-
-races.open('GET', 'https://api.open5e.com/races');
-
-races.responseType = 'json';
-
-races.send();
-
-const names = new XMLHttpRequest();
-
-names.open('GET', 'https://randomuser.me/api/');
-
-names.responseType = 'json';
-
-names.send();
-
-const classes = new XMLHttpRequest();
-
-classes.open('GET', 'https://api.open5e.com/classes');
-
-classes.responseType = 'json';
-
-classes.send();
-
+const classes = apiRequest('https://api.open5e.com/classes');
+const names = apiRequest('https://randomuser.me/api/');
+const races = apiRequest('https://api.open5e.com/races');
+const alignmentApi = apiRequest('https://www.dnd5eapi.co/api/alignments');
+const armors = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/armor');
+const weapons = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/weapon');
+const potions = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/potion');
 const featureForm = document.querySelector('.feature-form');
 const alignment = document.querySelector('.alignment');
 const role = document.querySelector('.role');
@@ -84,6 +44,28 @@ const sideImages = document.querySelector('.side-images');
 
 if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
+}
+
+function setStat(newCharacter, stat, currentCharacter) {
+  if (currentCharacter.statInitial[stat] === 'Random') {
+    const randomNum = Math.floor(Math.random() * 20);
+    newCharacter[stat] = randomNum;
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+  } else {
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+    newCharacter[stat] = currentCharacter[stat];
+  }
+}
+
+function setInfo(currentCharacter, newCharacter, infoValue, value, stringValue) {
+  if (currentCharacter[infoValue] === 'Random') {
+    const randomIndex = Math.floor(Math.random() * value.response.results.length);
+    newCharacter[stringValue] = value.response.results[randomIndex].name;
+    newCharacter[infoValue] = 'Random';
+  } else {
+    newCharacter[stringValue] = currentCharacter[infoValue];
+    newCharacter[infoValue] = currentCharacter[infoValue];
+  }
 }
 
 // These three functions sort saved entries alphabetically based on class, race, or name.
@@ -302,6 +284,13 @@ function randomStat(stat) {
   } else return stat;
 }
 
+function setRandom(type, newCharacter, api, typeString) {
+  if (type.value === 'Random') {
+    const randomIndex = Math.floor(Math.random() * api.response.results.length);
+    newCharacter[typeString] = api.response.results[randomIndex].name;
+  } else { newCharacter[typeString] = type.value; }
+}
+
 // Handles character generation and character storage to local storage.
 featureForm.addEventListener('submit', function (e) {
   const strength = document.querySelector('.strength');
@@ -335,19 +324,9 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.intelligence = intelligence.value;
   newCharacter.charisma = charisma.value;
   newCharacter.statInitial = statInitial;
-  if (race.value === 'Random') {
-    const randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-  } else { newCharacter.race = race.value; }
-  if (role.value === 'Random') {
-    const classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-  } else { newCharacter.class = role.value; }
-  if (alignment.value === 'Random') {
-    const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-  } else { newCharacter.alignment = alignment.value; }
-
+  setRandom(race, newCharacter, races, 'race');
+  setRandom(role, newCharacter, classes, 'class');
+  setRandom(alignment, newCharacter, alignmentApi, 'alignment');
   if (featureForm.name.value === '') {
     newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
     newCharacter.nameValue = 'Random';
@@ -527,78 +506,15 @@ characterSheet.addEventListener('click', function (event) {
     description.innerHTML = '';
     const newCharacter = {};
     newCharacter.statInitial = currentCharacter.statInitial;
-    if (currentCharacter.statInitial.strength === 'Random') {
-      const randomNum = Math.floor(Math.random() * 20);
-      newCharacter.strength = randomNum;
-      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
-    } else {
-      newCharacter.statInitial.strength = currentCharacter.statInitial.strength;
-      newCharacter.strength = currentCharacter.strength;
-    }
-    if (currentCharacter.statInitial.dexterity === 'Random') {
-      const randomNumTwo = Math.floor(Math.random() * 20);
-      newCharacter.dexterity = randomNumTwo;
-      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
-    } else {
-      newCharacter.statInitial.dexterity = currentCharacter.statInitial.dexterity;
-      newCharacter.dexterity = currentCharacter.dexterity;
-    }
-    if (currentCharacter.statInitial.charisma === 'Random') {
-      const randomNumThree = Math.floor(Math.random() * 20);
-      newCharacter.charisma = randomNumThree;
-      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
-    } else {
-      newCharacter.statInitial.charisma = currentCharacter.statInitial.charisma;
-      newCharacter.charisma = currentCharacter.charisma;
-    }
-    if (currentCharacter.statInitial.wisdom === 'Random') {
-      const randomNumFour = Math.floor(Math.random() * 20);
-      newCharacter.wisdom = randomNumFour;
-      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
-    } else {
-      newCharacter.statInitial.wisdom = currentCharacter.statInitial.wisdom;
-      newCharacter.wisdom = currentCharacter.wisdom;
-    }
-    if (currentCharacter.statInitial.intelligence === 'Random') {
-      const randomNumFive = Math.floor(Math.random() * 20);
-      newCharacter.intelligence = randomNumFive;
-      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
-    } else {
-      newCharacter.statInitial.intelligence = currentCharacter.statInitial.intelligence;
-      newCharacter.intelligence = currentCharacter.intelligence;
-    }
-    if (currentCharacter.statInitial.constitution === 'Random') {
-      const randomNumSix = Math.floor(Math.random() * 20);
-      newCharacter.constitution = randomNumSix;
-      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
-    } else {
-      newCharacter.statInitial.constitution = currentCharacter.statInitial.constitution;
-      newCharacter.constitution = currentCharacter.constitution;
-    }
-    if (currentCharacter.raceValue === 'Random') {
-      const randomIndex = Math.floor(Math.random() * races.response.results.length);
-      newCharacter.race = races.response.results[randomIndex].name;
-      newCharacter.raceValue = 'Random';
-    } else {
-      newCharacter.race = currentCharacter.raceValue;
-      newCharacter.raceValue = currentCharacter.raceValue;
-    }
-    if (currentCharacter.roleValue === 'Random') {
-      const classesIndex = Math.floor(Math.random() * classes.response.results.length);
-      newCharacter.class = classes.response.results[classesIndex].name;
-      newCharacter.roleValue = 'Random';
-    } else {
-      newCharacter.class = currentCharacter.roleValue;
-      newCharacter.roleValue = currentCharacter.roleValue;
-    }
-    if (currentCharacter.alignmentValue === 'Random') {
-      const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-      newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-      newCharacter.alignmentValue = 'Random';
-    } else {
-      newCharacter.alignment = currentCharacter.alignmentValue;
-      newCharacter.alignmentValue = currentCharacter.alignmentValue;
-    }
+    setStat(newCharacter, 'strength', currentCharacter);
+    setStat(newCharacter, 'dexterity', currentCharacter);
+    setStat(newCharacter, 'charisma', currentCharacter);
+    setStat(newCharacter, 'wisdom', currentCharacter);
+    setStat(newCharacter, 'intelligence', currentCharacter);
+    setStat(newCharacter, 'constitution', currentCharacter);
+    setInfo(currentCharacter, newCharacter, 'raceValue', races, 'race');
+    setInfo(currentCharacter, newCharacter, 'roleValue', classes, 'class');
+    setInfo(currentCharacter, newCharacter, 'alignmentValue', alignmentApi, 'alignment');
     if (currentCharacter.nameValue === 'Random') {
       newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
       newCharacter.nameValue = 'Random';
