@@ -86,6 +86,28 @@ if (data.characters.length === 0) {
   noChar.classList.remove('hidden');
 }
 
+function setStat(newCharacter, stat, currentCharacter) {
+  if (currentCharacter.statInitial[stat] === 'Random') {
+    const randomNum = Math.floor(Math.random() * 20);
+    newCharacter[stat] = randomNum;
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+  } else {
+    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
+    newCharacter[stat] = currentCharacter[stat];
+  }
+}
+
+function setInfo(currentCharacter, newCharacter, infoValue, value, stringValue) {
+  if (currentCharacter[infoValue] === 'Random') {
+    const randomIndex = Math.floor(Math.random() * value.response.results.length);
+    newCharacter[stringValue] = value.response.results[randomIndex].name;
+    newCharacter[infoValue] = 'Random';
+  } else {
+    newCharacter[stringValue] = currentCharacter[infoValue];
+    newCharacter[infoValue] = currentCharacter[infoValue];
+  }
+}
+
 // These three functions sort saved entries alphabetically based on class, race, or name.
 function compareClass(a, b) {
   if (a.class.toLowerCase() < b.class.toLowerCase()) {
@@ -302,6 +324,13 @@ function randomStat(stat) {
   } else return stat;
 }
 
+function setRandom(type, newCharacter, api, typeString) {
+  if (type.value === 'Random') {
+    const randomIndex = Math.floor(Math.random() * api.response.results.length);
+    newCharacter[typeString] = api.response.results[randomIndex].name;
+  } else { newCharacter[typeString] = type.value; }
+}
+
 // Handles character generation and character storage to local storage.
 featureForm.addEventListener('submit', function (e) {
   const strength = document.querySelector('.strength');
@@ -335,19 +364,9 @@ featureForm.addEventListener('submit', function (e) {
   newCharacter.intelligence = intelligence.value;
   newCharacter.charisma = charisma.value;
   newCharacter.statInitial = statInitial;
-  if (race.value === 'Random') {
-    const randomIndex = Math.floor(Math.random() * races.response.results.length);
-    newCharacter.race = races.response.results[randomIndex].name;
-  } else { newCharacter.race = race.value; }
-  if (role.value === 'Random') {
-    const classesIndex = Math.floor(Math.random() * classes.response.results.length);
-    newCharacter.class = classes.response.results[classesIndex].name;
-  } else { newCharacter.class = role.value; }
-  if (alignment.value === 'Random') {
-    const alignmentIndex = Math.floor(Math.random() * alignmentApi.response.results.length);
-    newCharacter.alignment = alignmentApi.response.results[alignmentIndex].name;
-  } else { newCharacter.alignment = alignment.value; }
-
+  setRandom(race, newCharacter, races, 'race');
+  setRandom(role, newCharacter, classes, 'class');
+  setRandom(alignment, newCharacter, alignmentApi, 'alignment');
   if (featureForm.name.value === '') {
     newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
     newCharacter.nameValue = 'Random';
@@ -519,28 +538,6 @@ itemSelection.addEventListener('click', function (event) {
     characterConfirm.innerHTML = '';
   }
 });
-
-function setStat(newCharacter, stat, currentCharacter) {
-  if (currentCharacter.statInitial[stat] === 'Random') {
-    const randomNum = Math.floor(Math.random() * 20);
-    newCharacter[stat] = randomNum;
-    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
-  } else {
-    newCharacter.statInitial[stat] = currentCharacter.statInitial[stat];
-    newCharacter[stat] = currentCharacter[stat];
-  }
-}
-
-function setInfo(currentCharacter, newCharacter, infoValue, value, stringValue) {
-  if (currentCharacter[infoValue] === 'Random') {
-    const randomIndex = Math.floor(Math.random() * value.response.results.length);
-    newCharacter[stringValue] = value.response.results[randomIndex].name;
-    newCharacter[infoValue] = 'Random';
-  } else {
-    newCharacter[stringValue] = currentCharacter[infoValue];
-    newCharacter[infoValue] = currentCharacter[infoValue];
-  }
-}
 
 // Handles clicks on the character sheet page.
 characterSheet.addEventListener('click', function (event) {
