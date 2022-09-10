@@ -8,8 +8,16 @@ function apiRequest(url) {
   return api;
 }
 
+// Working out slight bug with random name generator
+// const names = new XMLHttpRequest();
+
+// names.open('GET', 'https://randomuser.me/api/');
+
+// names.responseType = 'json';
+
+// names.send();
+
 const classes = apiRequest('https://api.open5e.com/classes');
-const names = apiRequest('https://randomuser.me/api/');
 const races = apiRequest('https://api.open5e.com/races');
 const alignmentApi = apiRequest('https://www.dnd5eapi.co/api/alignments');
 const armors = apiRequest('https://www.dnd5eapi.co/api/equipment-categories/armor');
@@ -177,8 +185,8 @@ function characterEntry(entry) {
   description.appendChild(h2Stats);
   description.appendChild(h2Size);
   description.appendChild(h2Languages);
-  names.open('GET', 'https://randomuser.me/api/');
-  names.send();
+  // names.open('GET', 'https://randomuser.me/api/');
+  // names.send();
 }
 
 // Generates all characters that have been saved to local storage.
@@ -330,13 +338,18 @@ featureForm.addEventListener('submit', function (e) {
   setRandom(race, newCharacter, races, 'race');
   setRandom(role, newCharacter, classes, 'class');
   setRandom(alignment, newCharacter, alignmentApi, 'alignment');
-  if (featureForm.name.value === '') {
-    newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-    newCharacter.nameValue = 'Random';
-  } else {
-    newCharacter.name = featureForm.name.value;
-    newCharacter.nameValue = 'Input';
-  }
+
+  // Working out slight bug with random name generator.
+  // if (featureForm.name.value === '') {
+  //   console.log(names.response);
+  //   newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+  //   newCharacter.nameValue = 'Random';
+  // } else {
+  //   newCharacter.name = featureForm.name.value;
+  //   newCharacter.nameValue = 'Input';
+  // }
+  newCharacter.name = featureForm.name.value;
+  newCharacter.nameValue = 'Input';
 
   for (let i = 0; i < classes.response.results.length; i++) {
     if (newCharacter.class === classes.response.results[i].name) {
@@ -373,8 +386,8 @@ header.addEventListener('click', function (event) {
       noChar.classList.add('hidden');
     }
     regen.classList.remove('hidden');
-    names.open('GET', 'https://randomuser.me/api/');
-    names.send();
+    // names.open('GET', 'https://randomuser.me/api/');
+    // names.send();
   } else if (event.target.classList.contains('saved')) {
     info.innerHTML = '';
     description.innerHTML = '';
@@ -518,13 +531,15 @@ characterSheet.addEventListener('click', function (event) {
     setInfo(currentCharacter, newCharacter, 'raceValue', races, 'race');
     setInfo(currentCharacter, newCharacter, 'roleValue', classes, 'class');
     setInfo(currentCharacter, newCharacter, 'alignmentValue', alignmentApi, 'alignment');
-    if (currentCharacter.nameValue === 'Random') {
-      newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
-      newCharacter.nameValue = 'Random';
-    } else {
-      newCharacter.name = currentCharacter.name;
-      newCharacter.nameValue = currentCharacter.nameValue;
-    }
+    // if (currentCharacter.nameValue === 'Random') {
+    //   newCharacter.name = names.response.results[0].name.first + ' ' + names.response.results[0].name.last;
+    //   newCharacter.nameValue = 'Random';
+    // } else {
+    //   newCharacter.name = currentCharacter.name;
+    //   newCharacter.nameValue = currentCharacter.nameValue;
+    // }
+    newCharacter.name = currentCharacter.name;
+    newCharacter.nameValue = currentCharacter.nameValue;
     for (let i = 0; i < classes.response.results.length; i++) {
       if (newCharacter.class === classes.response.results[i].name) {
         newCharacter.hitDie = classes.response.results[i].hit_dice;
